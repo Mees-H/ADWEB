@@ -7,14 +7,15 @@ h1 {
     text-decoration: none;
     margin-top: 10px;
     display: inline-block;
-    background-color: #e8e8e8;
-    color: #3d3d3d;
+    background-color: #FFD700;
+    color: black;
     border-radius: 4px;
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
   }
   
   nav a:hover {
-    color: white;
-    background-color: #42545C;
+    color: #FFD700;
+    background-color: black;
   }
   nav a:active {
     background-color: black;

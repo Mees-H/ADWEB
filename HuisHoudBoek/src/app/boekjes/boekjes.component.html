@@ -8,11 +8,13 @@
   </li>
 </ul>
 <div>
-  <label for="new-boekje">boekje name: </label>
+  <label for="new-boekje">Boekje name: </label>
   <input id="new-boekje" #boekjeName />
+  <label for="new-boekje">Boekje beschrijving: </label>
+  <input id="new-boekje" #boekjeDescription />
 
   <!-- (click) passes input value to add() and then clears the input -->
-  <button type="button" class="add-button" (click)="add(boekjeName.value); boekjeName.value=''">
+  <button type="button" class="add-button" (click)="add(boekjeName.value, boekjeDescription.value); boekjeName.value=''; boekjeDescription.value=''">
     Add boekje
   </button>
 </div>
