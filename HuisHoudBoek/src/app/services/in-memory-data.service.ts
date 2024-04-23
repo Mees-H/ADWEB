@@ -8,16 +8,17 @@ import { Boekje } from '../boekje';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const boekjes = [
-      { id: 1, name: 'Boekje 1', description: 'Dit is boekje 1' },
-      { id: 2, name: 'Boekje 2', description: 'Dit is boekje 2' },
-      { id: 3, name: 'Boekje 3', description: 'Dit is boekje 3' },
-      { id: 4, name: 'Boekje 4', description: 'Dit is boekje 4' },
-      { id: 5, name: 'Boekje 5', description: 'Dit is boekje 5' },
-      { id: 6, name: 'Boekje 6', description: 'Dit is boekje 6' },
-      { id: 7, name: 'Boekje 7', description: 'Dit is boekje 7' },
-      { id: 8, name: 'Boekje 8', description: 'Dit is boekje 8' },
-      { id: 9, name: 'Boekje 9', description: 'Dit is boekje 9' },
-      { id: 10, name: 'Boekje 10', description: 'Dit is boekje 10' }
+      { id: 1, name: 'Boekje Alpha', description: 'Op dag 1 van de boekenclub kreeg ik een boekje cadeau.' },
+      { id: 2, name: 'Boekje Beta', description: 'Op dag 2 van de boekenclub kreeg ik twee boekjes cadaeu.' },
+      { id: 3, name: 'Boekje Gamma', description: 'Op dag 3 van de boekenclub kreeg ik drie boekjes cadeau.' },
+      { id: 4, name: 'Boekje Delta', description: 'Op dag 4 van de boekenclub kreeg ik vier boekjes cadeau.' },
+      { id: 5, name: 'Boekje Epsilon', description: 'Op dag 5 van de boekenclub kreeg ik vijf boekjes cadeau.' },
+      { id: 6, name: 'Boekje Zeta', description: 'Op dag 6 van de boekenclub kreeg ik zes boekjes cadeau.' },
+      { id: 7, name: 'Boekje Eta', description: 'Op dag 7 van de boekenclub kreeg ik zeven boekjes cadeau.' },
+      { id: 8, name: 'Boekje Theta', description: 'Op dag 8 van de boekenclub kreeg ik acht boekjes cadeau.' },
+      { id: 9, name: 'Boekje Iota', description: 'Op dag 9 van de boekenclub kreeg ik negen boekjes cadeau.' },
+      { id: 10, name: 'Boekje Kappa', description: 'Op dag 10 van de boekenclub kreeg ik tien boekjes cadeau.' }
+
     ];
     return {boekjes};
   }

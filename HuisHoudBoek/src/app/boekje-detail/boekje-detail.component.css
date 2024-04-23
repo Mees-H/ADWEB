@@ -22,3 +22,8 @@ label {
     color: #ccc;
     cursor: auto;
   }
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+  }
