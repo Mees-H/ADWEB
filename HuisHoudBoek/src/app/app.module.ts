@@ -13,6 +13,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroesComponent } from './heroes/heroes.component';
 import { MessagesComponent } from './messages/messages.component';
+import { BoekjesComponent } from './boekjes/boekjes.component';
+import { BoekjeDetailComponent } from './boekje-detail/boekje-detail.component';
 
 @NgModule({
   imports: [
@@ -33,6 +35,8 @@ import { MessagesComponent } from './messages/messages.component';
     AppComponent,
     HeroesComponent,
     HeroDetailComponent,
+    BoekjesComponent,
+    BoekjeDetailComponent,
     MessagesComponent,
   ],
   bootstrap: [ AppComponent ]

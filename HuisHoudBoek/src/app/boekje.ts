@@ -1,0 +1,5 @@
+export interface Boekje {
+    id: number;
+    name: string;
+    description: string;
+}

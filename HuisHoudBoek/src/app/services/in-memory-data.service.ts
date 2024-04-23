@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Hero } from '../hero';
+import { Boekje } from '../boekje';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,19 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 19, name: 'Magma' },
       { id: 20, name: 'Tornado' }
     ];
-    return {heroes};
+    const boekjes = [
+      { id: 1, name: 'Boekje 1', description: 'Dit is boekje 1' },
+      { id: 2, name: 'Boekje 2', description: 'Dit is boekje 2' },
+      { id: 3, name: 'Boekje 3', description: 'Dit is boekje 3' },
+      { id: 4, name: 'Boekje 4', description: 'Dit is boekje 4' },
+      { id: 5, name: 'Boekje 5', description: 'Dit is boekje 5' },
+      { id: 6, name: 'Boekje 6', description: 'Dit is boekje 6' },
+      { id: 7, name: 'Boekje 7', description: 'Dit is boekje 7' },
+      { id: 8, name: 'Boekje 8', description: 'Dit is boekje 8' },
+      { id: 9, name: 'Boekje 9', description: 'Dit is boekje 9' },
+      { id: 10, name: 'Boekje 10', description: 'Dit is boekje 10' }
+    ];
+    return {heroes, boekjes};
   }
 
   // Overrides the genId method to ensure that a hero always has an id.
@@ -28,5 +41,8 @@ export class InMemoryDataService implements InMemoryDbService {
   // hero id + 1.
   genId(heroes: Hero[]): number {
     return heroes.length > 0 ? Math.max(...heroes.map(hero => hero.id)) + 1 : 11;
+  }
+  genIdBoekje(boekjes: Boekje[]): number {
+    return boekjes.length > 0 ? Math.max(...boekjes.map(boekje => boekje.id)) + 1 : 11;
   }
 }
