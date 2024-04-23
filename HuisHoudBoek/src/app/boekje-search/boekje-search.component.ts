@@ -6,23 +6,23 @@ import {
    debounceTime, distinctUntilChanged, switchMap
  } from 'rxjs/operators';
 
-import { Hero } from '../hero';
-import { HeroService } from '../services/hero.service';
+import { Boekje } from '../boekje';
+import { BoekjeService } from '../services/boekje.service';
 import { RouterModule } from '@angular/router';
 import { AsyncPipe, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-hero-search',
+  selector: 'app-boekje-search',
   standalone: true,
   imports: [ RouterModule, NgFor, AsyncPipe],
-  templateUrl: './hero-search.component.html',
-  styleUrls: [ './hero-search.component.css' ]
+  templateUrl: './boekje-search.component.html',
+  styleUrls: [ './boekje-search.component.css' ]
 })
-export class HeroSearchComponent implements OnInit {
-  heroes$!: Observable<Hero[]>;
+export class BoekjeSearchComponent implements OnInit {
+  boekjes$!: Observable<Boekje[]>;
   private searchTerms = new Subject<string>();
 
-  constructor(private heroService: HeroService) {}
+  constructor(private boekjeService: BoekjeService) {}
 
   // Push a search term into the observable stream.
   search(term: string): void {
@@ -30,7 +30,7 @@ export class HeroSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.heroes$ = this.searchTerms.pipe(
+    this.boekjes$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
 
@@ -38,7 +38,7 @@ export class HeroSearchComponent implements OnInit {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.heroService.searchHeroes(term)),
+      switchMap((term: string) => this.boekjeService.searchBoekjes(term)),
     );
   }
 }

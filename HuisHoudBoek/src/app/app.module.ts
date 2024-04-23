@@ -10,8 +10,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { HeroDetailComponent } from './hero-detail/hero-detail.component';
-import { HeroesComponent } from './heroes/heroes.component';
 import { MessagesComponent } from './messages/messages.component';
 import { BoekjesComponent } from './boekjes/boekjes.component';
 import { BoekjeDetailComponent } from './boekje-detail/boekje-detail.component';
@@ -33,8 +31,6 @@ import { BoekjeDetailComponent } from './boekje-detail/boekje-detail.component';
   ],
   declarations: [
     AppComponent,
-    HeroesComponent,
-    HeroDetailComponent,
     BoekjesComponent,
     BoekjeDetailComponent,
     MessagesComponent,
