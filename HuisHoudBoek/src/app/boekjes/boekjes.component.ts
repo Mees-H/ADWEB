@@ -37,9 +37,4 @@ export class BoekjesComponent {
         this.boekjes.push(boekje);
       });
   }
-
-  delete(boekje: Boekje): void {
-    this.boekjes = this.boekjes.filter(h => h !== boekje);
-    this.boekjeService.deleteBoekje(boekje.id).subscribe();
-  }
 }

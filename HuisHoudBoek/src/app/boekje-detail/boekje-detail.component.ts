@@ -40,5 +40,10 @@ export class BoekjeDetailComponent {
         .subscribe(() => this.goBack());
     }
   }
+
+  delete(boekje: Boekje): void {
+    this.boekjeService.deleteBoekje(boekje.id).subscribe();
+    this.goBack();
+  }
   
 }
