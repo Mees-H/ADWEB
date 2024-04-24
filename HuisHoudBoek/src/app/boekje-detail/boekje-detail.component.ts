@@ -39,13 +39,5 @@ export class BoekjeDetailComponent {
       this.boekjeService.updateBoekje(this.boekje)
         .subscribe(() => this.goBack());
     }
-  }
-
-  delete(boekje: Boekje): void {
-    if(confirm("Are you sure you want to delete this boekje?")) {
-      this.boekjeService.deleteBoekje(boekje.id).subscribe();
-      this.goBack();
-    }
-  }
-  
+  }  
 }

@@ -1,0 +1,7 @@
+<ul class="boekjes-archived">
+  <li *ngFor="let boekje of boekjes">
+    <a routerLink="/detail/{{boekje.id}}">
+      <span class="badge">{{boekje.id}}</span> {{boekje.name}}
+    </a>
+  </li>
+</ul>
