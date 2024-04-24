@@ -1,13 +1,20 @@
-<div *ngIf="boekje">
-
+<div *ngIf="boekje; else loading">
     <h2>{{boekje.name | uppercase}} Details</h2>
     <div><span>id: </span>{{boekje.id}}</div>
     <div class="vertical">
       <label for="boekje-name">Boekje name: </label>
       <input id="boekje-name" [(ngModel)]="boekje.name" placeholder="name">
-      <label for="boekje-name">Boekje beschrijving: </label>
+      <label for="boekje-description">Boekje beschrijving: </label>
       <input id="boekje-description" [(ngModel)]="boekje.description" placeholder="description">
+      <label for="boekje-archived">Boekje gearchiveerd:</label>
+      <div>
+        <input type="checkbox" id="boekje-archived" [(ngModel)]="boekje.archived">
+      </div>
     </div>
     <button type="button" (click)="goBack()">go back</button>
     <button type="button" (click)="save()">save</button>
   </div>
+
+  <ng-template #loading>
+    <div class="mt"><span class="loader"></span></div>
+  </ng-template>

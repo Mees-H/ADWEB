@@ -19,12 +19,12 @@ export class BoekjesComponentArchived {
   constructor(private boekjeService: BoekjeService, private messageService: MessageService) { }
 
   ngOnInit() {
-    this.getBoekjes();
+    this.getBoekjesArchived();
   }
 
   boekjes: Boekje[] = [];
 
-  getBoekjes(): void {
-    this.boekjeService.getBoekjes().subscribe(boekjes => this.boekjes = boekjes);
+  getBoekjesArchived(): void {
+    this.boekjeService.getBoekjesArchived().subscribe(boekjes => this.boekjes = boekjes);
   }
 }

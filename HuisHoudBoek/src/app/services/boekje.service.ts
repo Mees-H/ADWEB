@@ -31,10 +31,21 @@ export class BoekjeService {
     );
   }
 
-  /** GET boekjees from the server */
+  /** GET boekjes from the server that are not archived*/
   getBoekjes(): Observable<Boekje[]> {
     return this.http.get<Boekje[]>(this.boekjesUrl)
       .pipe(
+        map(boekjes => boekjes.filter(boekje => !boekje.archived)),
+        tap(_ => this.log('fetched boekjes')),
+        catchError(this.handleError<Boekje[]>('getBoekjes', []))
+      );
+  }
+
+  /** GET boekjes from the server that are archived*/
+  getBoekjesArchived(): Observable<Boekje[]> {
+    return this.http.get<Boekje[]>(this.boekjesUrl)
+      .pipe(
+        map(boekjes => boekjes.filter(boekje => boekje.archived)),
         tap(_ => this.log('fetched boekjes')),
         catchError(this.handleError<Boekje[]>('getBoekjes', []))
       );

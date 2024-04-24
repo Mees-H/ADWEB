@@ -1,16 +1,23 @@
-<ul class="boekjes">
+<ul class="boekjes" *ngIf="boekjes.length; else loading">
+  <p>Alle niet-gearchiveerde boekjes:</p>
   <li *ngFor="let boekje of boekjes">
     <a routerLink="/detail/{{boekje.id}}">
       <span class="badge">{{boekje.id}}</span> {{boekje.name}}
     </a>
   </li>
 </ul>
+
+<ng-template #loading>
+  <div class="mt"><span class="loader"></span></div>
+</ng-template>
+
+<hr>
+<h2>Voeg boekjes toe:</h2>
 <div>
   <label for="new-boekje-name">Boekje name: </label>
   <input id="new-boekje-name" #boekjeName />
   <label for="new-boekje-desc">Boekje beschrijving: </label>
   <input id="new-boekje-desc" #boekjeDescription />
-
   <button type="button" class="add-button" (click)="add(boekjeName.value, boekjeDescription.value); boekjeName.value=''; boekjeDescription.value=''">
     Add boekje
   </button>
