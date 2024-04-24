@@ -42,8 +42,10 @@ export class BoekjeDetailComponent {
   }
 
   delete(boekje: Boekje): void {
-    this.boekjeService.deleteBoekje(boekje.id).subscribe();
-    this.goBack();
+    if(confirm("Are you sure you want to delete this boekje?")) {
+      this.boekjeService.deleteBoekje(boekje.id).subscribe();
+      this.goBack();
+    }
   }
   
 }
