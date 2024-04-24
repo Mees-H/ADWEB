@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Boekje } from '../boekje';
+import { Boekje } from '../models/boekje';
 import { NgFor, NgIf, UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BoekjeDetailComponent } from '../boekje-detail/boekje-detail.component';

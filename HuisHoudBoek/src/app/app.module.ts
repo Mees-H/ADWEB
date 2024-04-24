@@ -14,6 +14,10 @@ import { MessagesComponent } from './messages/messages.component';
 import { BoekjesComponent } from './boekjes/boekjes.component';
 import { BoekjeDetailComponent } from './boekje-detail/boekje-detail.component';
 import { BoekjesComponentArchived } from './boekjes-archived/boekjes-archived.component';
+import { InUitComponent } from './in-uit/in-uit.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { InComponent } from './in/in.component';
+import { OutComponent } from './out/out.component';
 
 @NgModule({
   imports: [
@@ -27,7 +31,7 @@ import { BoekjesComponentArchived } from './boekjes-archived/boekjes-archived.co
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
     HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false, delay: 2000 }
+      InMemoryDataService, { dataEncapsulation: false }
     )
   ],
   declarations: [
@@ -36,6 +40,10 @@ import { BoekjesComponentArchived } from './boekjes-archived/boekjes-archived.co
     BoekjeDetailComponent,
     BoekjesComponentArchived,
     MessagesComponent,
+    InUitComponent,
+    InComponent,
+    OutComponent,
+    CategoriesComponent
   ],
   bootstrap: [ AppComponent ]
 })

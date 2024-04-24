@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Boekje } from '../boekje';
+import { Boekje } from '../models/boekje';
 import { BoekjeService } from '../services/boekje.service';
 import { NgFor } from '@angular/common';
 import { BoekjeSearchComponent } from '../boekje-search/boekje-search.component';

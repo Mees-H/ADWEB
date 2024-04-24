@@ -6,7 +6,7 @@ import {
    debounceTime, distinctUntilChanged, switchMap
  } from 'rxjs/operators';
 
-import { Boekje } from '../boekje';
+import { Boekje } from '../models/boekje';
 import { BoekjeService } from '../services/boekje.service';
 import { RouterModule } from '@angular/router';
 import { AsyncPipe, NgFor } from '@angular/common';

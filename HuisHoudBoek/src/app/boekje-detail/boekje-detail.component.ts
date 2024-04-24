@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {NgIf, UpperCasePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {Boekje} from '../boekje';
+import {Boekje} from '../models/boekje';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { BoekjeService } from '../services/boekje.service';
