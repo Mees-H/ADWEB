@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IncomeService } from '../services/income.service';
 import { Income } from '../models/income';
+import { CategoryService } from '../services/category.service';
+import { Category } from '../models/category';
 
 @Component({
   selector: 'app-in',
@@ -9,16 +11,22 @@ import { Income } from '../models/income';
 })
 export class InComponent {
 
-  constructor(private incomeService: IncomeService) { }
+  constructor(private incomeService: IncomeService, private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.getIncomes();
     this.getTotalIncome();
+    this.getCategories();
   }
 
   incomes: Income[] = [];
   totalIncome: number = 0;
+  categories: Category[] = [];
 
+  getCategories(): void {
+    this.categoryService.getCategories().subscribe(categories => this.categories = categories);
+  }
+  
   getIncomes(): void {
     this.incomeService.getIncomes().subscribe(incomes => this.incomes = incomes);
   }

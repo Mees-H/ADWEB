@@ -1,9 +1,16 @@
-  <ul class="incomes" *ngIf="incomes.length; else loading">
+  <ul class="categories" *ngIf="incomes.length; else loading">
     <p>Alle inkomsten:</p>
-    <li *ngFor="let income of incomes">
-      <a routerLink="/in-uit/in/{{income.id}}">
-        <span class="badge">{{income.id}}</span> {{income.name}} - €{{income.cash}}
-      </a>
+    <li *ngFor="let category of categories">
+      <h2>Categorie <b>{{category.name}}</b></h2>
+      <ul class="incomes">
+        <li *ngFor="let income of incomes">
+          <ng-container *ngIf="income.category === category.name">
+            <a routerLink="/in-uit/in/{{income.id}}">
+              <span class="badge">{{income.id}}</span> {{income.name}} - €{{income.cash}}
+            </a>
+          </ng-container>
+        </li>
+      </ul>
     </li>
     <p> Totale inkomsten: €{{ totalIncome }}</p>
   </ul>

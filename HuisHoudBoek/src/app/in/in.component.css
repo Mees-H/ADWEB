@@ -5,6 +5,15 @@
     padding: 0;
     width: 15em;
   }
+
+  h2 {
+    margin: .2em;
+    padding: .3em 0;
+  }
+
+  .categories {
+    list-style-type: none;
+  }
   
   input {
     display: block;
@@ -17,6 +26,10 @@
   .incomes li {
     position: relative;
     cursor: pointer;
+  }
+
+  .categories li {
+    position: relative;
   }
   
   .incomes li:hover {
