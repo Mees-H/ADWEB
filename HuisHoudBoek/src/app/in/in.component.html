@@ -1,1 +1,29 @@
-<p>in works!</p>
+  <ul class="incomes" *ngIf="incomes.length; else loading">
+    <p>Alle inkomsten:</p>
+    <li *ngFor="let income of incomes">
+      <a routerLink="/in-uit/in/{{income.id}}">
+        <span class="badge">{{income.id}}</span> {{income.name}} - €{{income.cash}}
+      </a>
+    </li>
+    <p> Totale inkomsten: €{{ totalIncome }}</p>
+  </ul>
+  
+  <ng-template #loading>
+    <div class="mt"><span class="loader"></span></div>
+  </ng-template>
+  
+  <hr>
+  <h2>Voeg inkomsten toe:</h2>
+  <div>
+    <label for="new-income-name">Inkomst naam: </label>
+    <input id="new-income-name" #inkomstName />
+    <label for="new-income-cash">Inkomst bedrag: </label>
+    <input tpye="number" id="new-income-cash" #inkomstCash />
+    <label for="new-income-desc">Inkomst beschrijving: </label>
+    <input id="new-income-desc" #inkomstDescription />
+    <label for="new-income-category">Inkomst categorie: </label>
+    <input id="new-income-category" #inkomstCategory />
+    <button type="button" class="add-button" (click)="add(inkomstName.value, inkomstCash.value, inkomstDescription.value, inkomstCategory.value); inkomstName.value=''; inkomstCash.value=''; inkomstDescription.value=''; inkomstCategory.value=''">
+      voeg inkomst toe
+    </button>
+  </div>

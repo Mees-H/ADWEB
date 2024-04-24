@@ -1,7 +1,7 @@
 <ul class="boekjes" *ngIf="boekjes.length; else loading">
   <p>Alle niet-gearchiveerde boekjes:</p>
   <li *ngFor="let boekje of boekjes">
-    <a routerLink="/detail/{{boekje.id}}">
+    <a routerLink="/boekjes/{{boekje.id}}">
       <span class="badge">{{boekje.id}}</span> {{boekje.name}}
     </a>
   </li>
@@ -14,7 +14,7 @@
 <hr>
 <h2>Voeg boekjes toe:</h2>
 <div>
-  <label for="new-boekje-name">Boekje name: </label>
+  <label for="new-boekje-name">Boekje naam: </label>
   <input id="new-boekje-name" #boekjeName />
   <label for="new-boekje-desc">Boekje beschrijving: </label>
   <input id="new-boekje-desc" #boekjeDescription />

@@ -1,0 +1,20 @@
+  <div *ngIf="inkomst; else loading">
+    <h2>{{inkomst.name | uppercase}} Details</h2>
+    <div><span>id: </span>{{inkomst.id}}</div>
+    <div class="vertical">
+      <label for="inkomst-name">Inkomst naam: </label>
+      <input id="inkomst-name" [(ngModel)]="inkomst.name" placeholder="name">
+      <label for="inkomst-description">Inkomst beschrijving: </label>
+      <input id="inkomst-description" [(ngModel)]="inkomst.description" placeholder="description">
+      <label for="inkomst-amount">Inkomst bedrag: </label>
+    <input id="inkomst-amount" [(ngModel)]="inkomst.cash" placeholder="amount">
+    <label for="inkomst-category">Inkomst categorie: </label>
+    <input id="inkomst-category" [(ngModel)]="inkomst.category" placeholder="category">
+    </div>
+    <button type="button" (click)="goBack()">terug</button>
+    <button type="button" (click)="save()">opslaan</button>
+  </div>
+
+  <ng-template #loading>
+    <div class="mt"><span class="loader"></span></div>
+  </ng-template>

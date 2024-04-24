@@ -1,4 +1,4 @@
-export interface Inkomst {
+export interface Outgo {
     id: number;
     cash: number;
     name: string;

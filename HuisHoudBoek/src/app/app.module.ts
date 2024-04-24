@@ -18,6 +18,8 @@ import { InUitComponent } from './in-uit/in-uit.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { InComponent } from './in/in.component';
 import { OutComponent } from './out/out.component';
+import { InDetailComponent } from './in-detail/in-detail.component';
+import { UitDetailComponent } from './uit-detail/uit-detail.component';
 
 @NgModule({
   imports: [
@@ -43,6 +45,8 @@ import { OutComponent } from './out/out.component';
     InUitComponent,
     InComponent,
     OutComponent,
+    InDetailComponent,
+    UitDetailComponent,
     CategoriesComponent
   ],
   bootstrap: [ AppComponent ]
