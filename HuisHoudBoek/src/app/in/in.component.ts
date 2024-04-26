@@ -48,5 +48,6 @@ export class InComponent {
         this.incomes.push(income);
       });
     this.getTotalIncome();
+    this.getCategories();
   }
 }

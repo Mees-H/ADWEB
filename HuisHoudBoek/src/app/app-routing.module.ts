@@ -9,6 +9,7 @@ import { InUitComponent } from './in-uit/in-uit.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { InDetailComponent } from './in-detail/in-detail.component';
 import { UitDetailComponent } from './uit-detail/uit-detail.component';
+import { CategoryDetailComponent } from './category-detail/category-detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -19,7 +20,8 @@ export const routes: Routes = [
   { path: 'in-uit/in/:id', component: InDetailComponent},
   { path: 'in-uit/uit/:id', component: UitDetailComponent},
   { path: 'in-uit', component: InUitComponent},
-  { path: 'categories', component: CategoriesComponent}
+  { path: 'categories', component: CategoriesComponent},
+  { path: 'categories/:id', component: CategoryDetailComponent}
 ];
 
 @NgModule({

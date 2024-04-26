@@ -31,6 +31,15 @@ export class CategoryService {
       );
   }
 
+  /** GET category by id. Will 404 if id not found */
+  getCategory(id: number): Observable<Category> {
+    const url = `${this.categoriesUrl}/${id}`;
+    return this.http.get<Category>(url).pipe(
+      tap(_ => this.log(`fetched category id=${id}`)),
+      catchError(this.handleError<Category>(`getCategory id=${id}`))
+    );
+  }
+
   /** POST add categories */
   addCategory(category: Category): Observable<Category> {
     return this.http.post<Category>(this.categoriesUrl, category, this.httpOptions).pipe(
@@ -38,6 +47,25 @@ export class CategoryService {
       catchError(this.handleError<Category>('addCategory'))
     );
   }
+
+  /** PUT: update the category on the server */
+  updateCategory(category: Category): Observable<any> {
+    return this.http.put(this.categoriesUrl, category, this.httpOptions).pipe(
+      tap(_ => this.log(`updated category id=${category.id}`)),
+      catchError(this.handleError<any>('updateCategory'))
+    );
+  }
+
+  /** DELETE: delete the category from the server */
+  deleteCategory(id: number): Observable<Category> {
+    const url = `${this.categoriesUrl}/${id}`;
+
+    return this.http.delete<Category>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted category id=${id}`)),
+      catchError(this.handleError<Category>('deleteCategory'))
+    );
+  }
+
 
   /**
  * Handle Http operation that failed.
