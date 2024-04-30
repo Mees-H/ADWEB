@@ -1,16 +1,17 @@
 <ul class="categories" *ngIf="categories.length; else loading">
     <p>Alle categorieën:</p>
+    <canvas  baseChart [data]="barChartData" [type]="'bar'"></canvas>
     <li *ngFor="let category of categories">
       <a routerLink="/categories/{{category.id}}">
         <span class="badge">{{category.id}}</span> {{category.name}}
       </a>
     </li>
   </ul>
-  
+
   <ng-template #loading>
     <div class="mt"><span class="loader"></span></div>
   </ng-template>
-  
+
   <hr>
   <h2>Voeg categorieën toe:</h2>
   <div>

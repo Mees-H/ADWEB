@@ -21,6 +21,7 @@ import { OutComponent } from './out/out.component';
 import { InDetailComponent } from './in-detail/in-detail.component';
 import { UitDetailComponent } from './uit-detail/uit-detail.component';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
+import {BaseChartDirective} from "ng2-charts";
 
 @NgModule({
   imports: [
@@ -29,13 +30,14 @@ import { CategoryDetailComponent } from './category-detail/category-detail.compo
     AppRoutingModule,
     HttpClientModule,
     DashboardComponent,
-    
+
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
     HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+      InMemoryDataService, {dataEncapsulation: false}
+    ),
+    BaseChartDirective
   ],
   declarations: [
     AppComponent,
