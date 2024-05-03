@@ -1,10 +1,14 @@
-<h1>{{title}}</h1>
 <nav>
-  <a routerLink="/dashboard">Dashboard</a> 
-  <a routerLink="/boekjes">Boekjes</a>
-  <a routerLink="/boekjes-archived">Archief</a>
-  <a routerLink="/in-uit">Inkomsten en uitgaven</a>
-  <a routerLink="/categories">Categorieën</a>
+  <ul>
+    <li class="title">{{title}}</li>
+    <li><a routerLink="/dashboard">Dashboard</a></li>
+    <li><a routerLink="/boekjes">Boekjes</a></li>
+    <li><a routerLink="/boekjes-archived">Archief</a></li>
+    <li><a routerLink="/in-uit">Inkomsten en uitgaven</a></li>
+    <li><a routerLink="/categories">Categorieën</a></li>
+  </ul>
 </nav>
+<div class="marginleft">
 <router-outlet></router-outlet>
+</div>
 <!-- <app-messages></app-messages> -->
