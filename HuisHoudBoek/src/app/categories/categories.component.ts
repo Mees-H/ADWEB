@@ -20,6 +20,7 @@ export class CategoriesComponent implements AfterViewInit {
 
   categories: Category[] = [];
   public barChartData : ChartData = {datasets:[], labels: []};
+  public lineGraphData : ChartData = {datasets:[], labels: []};
 
   updateChart() : void{
     let totals : number[] = []
@@ -34,7 +35,11 @@ export class CategoriesComponent implements AfterViewInit {
     }
 
     this.barChartData = {datasets:[
-      {data: totals, label: 'Categories'}
+      {data: totals, label: 'Uitgaven per categorie'}
+    ], labels: this.categories.map(c => c.name)};
+
+    this.lineGraphData = {datasets:[
+      {data: totals, label: 'Uitgaven per maand'}
     ], labels: this.categories.map(c => c.name)};
   }
 
