@@ -19,8 +19,8 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 9, name: 'Boekje Iota', description: 'Op dag 9 van de boekenclub kreeg ik negen boekjes cadeau.', archived: true },
       { id: 10, name: 'Boekje Kappa', description: 'Op dag 10 van de boekenclub kreeg ik tien boekjes cadeau.', archived: true }
     ];
-    
-    const income = [ 
+
+    const income = [
       { id: 1, cash: 100, name: 'Inkomst Alpha', description: 'Op dag 1 van de boekenclub kreeg ik 100 euro cadeau.', category: 'Gift' },
       { id: 2, cash: 200, name: 'Inkomst Beta', description: 'Op dag 2 van de boekenclub kreeg ik 200 euro cadeau.', category: 'Gift' },
       { id: 3, cash: 300, name: 'Inkomst Gamma', description: 'Op dag 3 van de boekenclub kreeg ik 300 euro cadeau.', category: 'Gift' },
@@ -47,8 +47,8 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     const categories = [
-      { id: 1, name: 'Gift', description: 'Geschenk van Henk' },
-      { id: 2, name: 'Work', description: 'Werken voor de moneys' }
+      { id: 1, name: 'Gift', description: 'Geschenk van Henk', incomes: income.filter(x => x.category === 'Gift')},
+      { id: 2, name: 'Work', description: 'Werken voor de moneys', incomes: income.filter(x => x.category === 'Work') }
     ];
 
     return {boekjes, income, outgo, categories};

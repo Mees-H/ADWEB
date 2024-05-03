@@ -22,8 +22,19 @@ export class CategoriesComponent implements AfterViewInit {
   public barChartData : ChartData = {datasets:[], labels: []};
 
   updateChart() : void{
+    let totals : number[] = []
+
+    for (let i = 0; i < this.categories.length; i++) {
+      let total = 0
+      for (let j = 0; j < this.categories[i].incomes.length; j++) {
+        total += this.categories[i].incomes[j].cash
+        total += this.categories[i].incomes[j].cash
+      }
+      totals.push(total)
+    }
+
     this.barChartData = {datasets:[
-      {data: this.categories.map(c => c.id), label: 'Categories'}
+      {data: totals, label: 'Categories'}
     ], labels: this.categories.map(c => c.name)};
   }
 
