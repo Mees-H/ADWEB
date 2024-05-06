@@ -1,4 +1,4 @@
-export interface Income{
+export interface Income {
     id: number;
     cash: number;
     name: string;

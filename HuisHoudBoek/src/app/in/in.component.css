@@ -13,7 +13,9 @@
 
   .categories {
     list-style-type: none;
+    padding-right: 3em;
   }
+
   
   input, select {
     display: block;
@@ -137,6 +139,16 @@
       transform: translateX(0%);
     }
   }
+
+  .horizontal {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .categories {
+    border-right: 1px solid black;
+  }
+
 
 
       

@@ -30,28 +30,20 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 7, cash: 700, name: 'Inkomst Eta', description: 'Op dag 7 van mijn werk kreeg ik 700 euro.', category: 'Work', date: new Date()},
       { id: 8, cash: 800, name: 'Inkomst Theta', description: 'Op dag 8 van mijn werk kreeg ik 800 euro.', category: 'Work', date: new Date()},
       { id: 9, cash: 900, name: 'Inkomst Iota', description: 'Op dag 9 van mijn werk kreeg ik 900 euro', category: 'Work', date: new Date()},
-      { id: 10, cash: 1000, name: 'Inkomst Kappa', description: 'Op dag 10 van mijn werkkreeg ik 1000 euro.', category: 'Work', date: new Date()}
-    ];
-
-    const outgo = [
-      { id: 1, cash: 100, name: 'Uitgave Alpha', description: 'Op dag 1 van de boekenclub gaf ik 100 euro uit.', category: 'Gift' },
-      { id: 2, cash: 200, name: 'Uitgave Beta', description: 'Op dag 2 van de boekenclub gaf ik 200 euro uit.', category: 'Gift' },
-      { id: 3, cash: 300, name: 'Uitgave Gamma', description: 'Op dag 3 van de boekenclub gaf ik 300 euro uit.', category: 'Gift' },
-      { id: 4, cash: 400, name: 'Uitgave Delta', description: 'Op dag 4 van de boekenclub gaf ik 400 euro uit.', category: 'Gift' },
-      { id: 5, cash: 500, name: 'Uitgave Epsilon', description: 'Op dag 5 van de boekenclub gaf ik 500 euro uit.', category: 'Gift' },
-      { id: 6, cash: 600, name: 'Uitgave Zeta', description: 'Op dag 6 van mijn werk gaf ik 600 euro uit.', category: 'Work' },
-      { id: 7, cash: 700, name: 'Uitgave Eta', description: 'Op dag 7 van mijn werk gaf ik 700 euro uit.', category: 'Work' },
-      { id: 8, cash: 800, name: 'Uitgave Theta', description: 'Op dag 8 van mijn werk gaf ik 800 euro uit.', category: 'Work' },
-      { id: 9, cash: 900, name: 'Uitgave Iota', description: 'Op dag 9 van mijn werk gaf ik 900 euro uit.', category: 'Work' },
-      { id: 10, cash: 1000, name: 'Uitgave Kappa', description: 'Op dag 10 van mijn werk gaf ik 1000 euro uit.', category: 'Work' }
+      { id: 10, cash: 1000, name: 'Inkomst Kappa', description: 'Op dag 10 van mijn werk kreeg ik 1000 euro.', category: 'Work', date: new Date()},
+      { id: 11, cash: -100, name: 'Uitgave Lambda', description: '5 personen aangereden.', category: 'Claim', date: new Date()},
+      { id: 12, cash: -200, name: 'Uitgave Mu', description: '10 personen aangereden.', category: 'Claim', date: new Date()},
+      { id: 13, cash: -300, name: 'Uitgave Nu', description: '1872 Lincon postzegel', category: 'Postzegels', date: new Date()},
     ];
 
     const categories = [
       { id: 1, name: 'Gift', description: 'Geschenk van Henk', incomes: income.filter(x => x.category === 'Gift')},
-      { id: 2, name: 'Work', description: 'Werken voor de moneys', incomes: income.filter(x => x.category === 'Work') }
+      { id: 2, name: 'Work', description: 'Werken voor de moneys', incomes: income.filter(x => x.category === 'Work') },
+      { id: 3, name: 'Claim', description: 'Schadeclaims', incomes: income.filter(x => x.category === 'Claim') },
+      { id: 4, name: 'Postzegels', description: 'Postzegels', incomes: income.filter(x => x.category === 'Postzegels') }
     ];
 
-    return {boekjes, income, outgo, categories};
+    return {boekjes, income, categories};
   }
 
   genId(boekjes: Boekje[]): number {

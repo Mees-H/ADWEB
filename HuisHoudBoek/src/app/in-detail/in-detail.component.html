@@ -2,15 +2,15 @@
     <h2>{{inkomst.name | uppercase}} Details</h2>
     <div><span>id: </span>{{inkomst.id}}</div>
     <div class="vertical">
-      <label for="inkomst-name">Inkomst naam: </label>
+      <label for="inkomst-name">Transactie naam: </label>
       <input id="inkomst-name" [(ngModel)]="inkomst.name" placeholder="name">
-      <label for="inkomst-description">Inkomst beschrijving: </label>
+      <label for="inkomst-description">Transactie  beschrijving: </label>
       <input id="inkomst-description" [(ngModel)]="inkomst.description" placeholder="description">
-      <label for="inkomst-amount">Inkomst bedrag: </label>
+      <label for="inkomst-amount">Transactie  bedrag: </label>
       <input id="inkomst-amount" [(ngModel)]="inkomst.cash" placeholder="amount">
-      <label for="inkomst-category">Inkomst categorie: </label>
+      <label for="inkomst-category">Transactie categorie: </label>
       <input id="inkomst-category" [(ngModel)]="inkomst.category" placeholder="category">
-      <label for="inkomst-date">Inkomst maand:</label>
+      <label for="inkomst-date">Transactie  maand:</label>
       <p id="inkomst-date">{{ inkomst.date | date:'MMMM YYYY' }}</p>
     </div>
     <button type="button" (click)="goBack()">terug</button>
