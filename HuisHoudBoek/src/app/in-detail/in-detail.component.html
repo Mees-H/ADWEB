@@ -7,9 +7,11 @@
       <label for="inkomst-description">Inkomst beschrijving: </label>
       <input id="inkomst-description" [(ngModel)]="inkomst.description" placeholder="description">
       <label for="inkomst-amount">Inkomst bedrag: </label>
-    <input id="inkomst-amount" [(ngModel)]="inkomst.cash" placeholder="amount">
-    <label for="inkomst-category">Inkomst categorie: </label>
-    <input id="inkomst-category" [(ngModel)]="inkomst.category" placeholder="category">
+      <input id="inkomst-amount" [(ngModel)]="inkomst.cash" placeholder="amount">
+      <label for="inkomst-category">Inkomst categorie: </label>
+      <input id="inkomst-category" [(ngModel)]="inkomst.category" placeholder="category">
+      <label for="inkomst-date">Inkomst maand:</label>
+      <p id="inkomst-date">{{ inkomst.date | date:'MMMM YYYY' }}</p>
     </div>
     <button type="button" (click)="goBack()">terug</button>
     <button type="button" (click)="save()">opslaan</button>

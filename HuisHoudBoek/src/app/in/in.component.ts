@@ -42,8 +42,9 @@ export class InComponent {
     description = description.trim();
     category = category.trim();
     const cashNumber = Number(cash);
+    const date = new Date();
     if (!cash || !name || !description || !category) { return; }
-    this.incomeService.addIncome({ cash: cashNumber, name, description, category } as Income)
+    this.incomeService.addIncome({ cash: cashNumber, name, date, description, category } as Income)
       .subscribe(income => {
         this.incomes.push(income);
       });

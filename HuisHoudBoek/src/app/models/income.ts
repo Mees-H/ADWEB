@@ -2,7 +2,7 @@ export interface Income{
     id: number;
     cash: number;
     name: string;
-    created_at: Date;
+    date: Date;
     description: string;
     category: string;
 }
