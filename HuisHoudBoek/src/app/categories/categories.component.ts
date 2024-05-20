@@ -63,12 +63,10 @@ export class CategoriesComponent implements AfterViewInit {
     const currDate = new Date()
     let lowestDate = currDate
 
-    for (let i = 0; i < this.categories.length; i++) {
-      for (let j = 0; j < this.categories[i].incomes.length; j++) {
-        const date = new Date(this.categories[i].incomes[j].date)
-        if(date < lowestDate){
-          lowestDate = date
-        }
+    for (let i = 0; i < this.incomes.length; i++) {
+      const date = new Date(this.incomes[i].date)
+      if (date < lowestDate) {
+        lowestDate = date
       }
     }
 
