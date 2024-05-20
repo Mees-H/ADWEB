@@ -24,7 +24,8 @@ export class InDetailComponent {
   }
 
   getIncome(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id')?.toString() ?? "";
+
     this.incomeService.getIncome(id)
       .subscribe(inkomst => this.inkomst = inkomst);
   }
@@ -32,7 +33,6 @@ export class InDetailComponent {
   save(): void {
     if (this.inkomst) {
       this.incomeService.updateIncome(this.inkomst)
-        .subscribe(() => this.goBack());
     }
   }
 
@@ -43,7 +43,6 @@ export class InDetailComponent {
   delete(): void {
     if (this.inkomst) {
       this.incomeService.deleteIncome(this.inkomst.id)
-        .subscribe(() => this.goBack());
     }
   }
 }

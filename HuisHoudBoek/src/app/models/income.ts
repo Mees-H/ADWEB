@@ -1,5 +1,5 @@
 export interface Income {
-    id: number;
+    id: string;
     cash: number;
     name: string;
     date: Date;

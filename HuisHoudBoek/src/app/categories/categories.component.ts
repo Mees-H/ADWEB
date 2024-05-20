@@ -1,9 +1,11 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef} from '@angular/core';
 import { CategoryService } from '../services/category.service';
 import { MessageService } from '../services/message.service';
 import { Category } from '../models/category';
-import {BaseChartDirective, provideCharts, withDefaultRegisterables} from 'ng2-charts';
+import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {ChartData} from "chart.js";
+import {Income} from "../models/income";
+import {IncomeService} from "../services/income.service";
 
 @Component({
   selector: 'app-categories',
@@ -12,24 +14,25 @@ import {ChartData} from "chart.js";
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent implements AfterViewInit {
-  constructor(private categoryService: CategoryService, private messageService: MessageService, private elementRef: ElementRef) { }
+  constructor(private categoryService: CategoryService, private incomeService: IncomeService, private messageService: MessageService, private elementRef: ElementRef) { }
 
   ngAfterViewInit(): void {
     this.getCategories();
   }
 
   categories: Category[] = [];
+  incomes: Income[] = [];
   public barChartData : ChartData = {datasets:[], labels: []};
   public lineGraphData : ChartData = {datasets:[], labels: []};
 
   updateTotalsChart() : void{
     let totals : number[] = []
-
     for (let i = 0; i < this.categories.length; i++) {
       let total = 0
-      for (let j = 0; j < this.categories[i].incomes.length; j++) {
-        total += this.categories[i].incomes[j].cash
-        total += this.categories[i].incomes[j].cash
+      let incomesInCategory = this.incomes.filter(x => x.category === this.categories[i].name);
+
+      for (let j = 0; j < incomesInCategory.length; j++) {
+        total += incomesInCategory[j].cash
       }
       totals.push(total)
     }
@@ -73,9 +76,11 @@ export class CategoriesComponent implements AfterViewInit {
 
     for (let i = 0; i < this.categories.length; i++) {
       let totals : number[] = []
+      let incomesInCategory = this.incomes.filter(x => x.category === this.categories[i].name);
+
       for (let j = 0; j < months.length; j++) {
         let totalForThisMonth = 0
-        let transactions = this.categories[i].incomes.filter(x => `${new Date(x.date).getFullYear()}/${new Date(x.date).getMonth() + 1}` === months[j])
+        let transactions = incomesInCategory.filter(x => `${new Date(x.date).getFullYear()}/${new Date(x.date).getMonth() + 1}` === months[j])
         for (let k = 0; k < transactions.length; k++) {
           totalForThisMonth += transactions[k].cash
         }
@@ -94,6 +99,11 @@ export class CategoriesComponent implements AfterViewInit {
   getCategories(): void {
     this.categoryService.getCategories().subscribe(categories => {
       this.categories = categories
+      this.updateTotalsChart()
+      this.updateTotalsPerMonthChart()
+    })
+    this.incomeService.getIncomes().subscribe(incomes => {
+      this.incomes = incomes
       this.updateTotalsChart()
       this.updateTotalsPerMonthChart()
     })

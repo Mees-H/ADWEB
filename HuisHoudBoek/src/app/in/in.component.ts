@@ -38,7 +38,7 @@ export class InComponent {
   getCategories(): void {
     this.categoryService.getCategories().subscribe(categories => this.categories = categories);
   }
-  
+
   getPositiveIncomes(): void {
     this.incomeService.getIncomes().subscribe(positiveIncomes => this.positiveIncomes = positiveIncomes.filter(income => income.cash > 0));
   }
@@ -54,7 +54,7 @@ export class InComponent {
   getTotalNegativeIncome(): void {
     this.incomeService.getIncomes().subscribe(negativeIncomes => this.totalNegativeIncome = negativeIncomes.filter(income => income.cash < 0).reduce((acc, income) => acc + income.cash, 0));
   }
-  
+
   add(name: string, cash: string, description: string, category: string): void {
     name = name.trim();
     description = description.trim();
@@ -62,18 +62,19 @@ export class InComponent {
     const cashNumber = Number(cash);
     const date = new Date();
     if (!cash || !name || !description || !category) { return; }
-    if (cashNumber >= 0) {
-      this.incomeService.addIncome({ cash: cashNumber, name, date, description, category } as Income)
-        .subscribe(income => {
-          this.positiveIncomes.push(income);
-        });
-    }
-    else {
-      this.incomeService.addIncome({ cash: cashNumber, name, date, description, category } as Income)
-        .subscribe(income => {
-          this.negativeIncomes.push(income);
-        });
-    }
+    this.incomeService.addIncome({ cash: cashNumber, name, date, description, category } as Income)
+    // if (cashNumber >= 0) {
+    //   this.incomeService.addIncome({ cash: cashNumber, name, date, description, category } as Income)
+    //     .subscribe(income => {
+    //       this.positiveIncomes.push(income);
+    //     });
+    // }
+    // else {
+    //   this.incomeService.addIncome({ cash: cashNumber, name, date, description, category } as Income)
+    //     .subscribe(income => {
+    //       this.negativeIncomes.push(income);
+    //     });
+    // }
     this.getTotalPositiveIncome();
     this.getTotalNegativeIncome();
     this.getCategories();
