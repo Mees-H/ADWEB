@@ -24,10 +24,16 @@ export class InDetailComponent {
   }
 
   getIncome(): void {
-    const id = this.route.snapshot.paramMap.get('id')?.toString() ?? "";
+    const id = this.route.snapshot.paramMap.get('id') ?? "";
 
-    this.incomeService.getIncome(id)
-      .subscribe(inkomst => this.inkomst = inkomst);
+    let observable = this.incomeService.getIncome(id)
+    if(observable){
+      observable.subscribe(transaction => {
+        if(transaction) {
+          this.inkomst = transaction
+        }
+      });
+    }
   }
 
   save(): void {

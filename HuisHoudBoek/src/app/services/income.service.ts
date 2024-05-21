@@ -40,7 +40,7 @@ export class IncomeService {
           let data = doc.data()
           if (data) {
             subscriber.next({
-              id: data['id'],
+              id: doc.id,
               date: data['date'].toDate(),
               cash: data['cash'],
               description: data['description'],
@@ -61,7 +61,7 @@ export class IncomeService {
         let incomes: Income[] = []
         snapshot.forEach(x => {
           incomes.push({
-            id: x.data()['id'],
+            id: x.id,
             date: x.data()['date'].toDate(),
             cash: x.data()['cash'],
             description: x.data()['description'],
