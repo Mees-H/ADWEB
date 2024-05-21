@@ -2,15 +2,22 @@ import { Injectable } from '@angular/core';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Category } from '../models/category';
-import { Observable, of } from 'rxjs';
+import {Observable, of, Subscriber} from 'rxjs';
 import { catchError, tap, } from 'rxjs/operators';
+import {addDoc, collection, deleteDoc, doc, Firestore, getFirestore, onSnapshot, updateDoc} from "firebase/firestore";
+import {initializeApp} from "firebase/app";
+import appsettings from "../../appsettings";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
+  firestore: Firestore
 
-  constructor(private messageService: MessageService, private http: HttpClient) { }
+  constructor(private messageService: MessageService, private http: HttpClient) {
+    const app = initializeApp(appsettings.firebaseConfig)
+    this.firestore = getFirestore(app);
+  }
 
   private categoriesUrl = 'api/categories';  // URL to web api
 
@@ -24,46 +31,62 @@ export class CategoryService {
 
   /** GET categories from the server that are not archived*/
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.categoriesUrl)
-      .pipe(
-        tap(_ => this.log('fetched categories')),
-        catchError(this.handleError<Category[]>('getCategories', []))
-      );
+    return new Observable((subscriber: Subscriber<any[]>) => {
+      onSnapshot(collection(this.firestore, 'categories'), (snapshot) => {
+        let categories: Category[] = []
+        snapshot.forEach(x => {
+          categories.push({
+            id: x.id,
+            description: x.data()['description'],
+            name: x.data()['name'],
+            incomes: []
+          });
+        })
+        subscriber.next(categories);
+      })
+    })
   }
 
   /** GET category by id. Will 404 if id not found */
-  getCategory(id: number): Observable<Category> {
-    const url = `${this.categoriesUrl}/${id}`;
-    return this.http.get<Category>(url).pipe(
-      tap(_ => this.log(`fetched category id=${id}`)),
-      catchError(this.handleError<Category>(`getCategory id=${id}`))
-    );
+  getCategory(id: string): Observable<Category> | undefined {
+    return new Observable((subscriber: Subscriber<any>) => {
+      if (id == "") {
+        subscriber.next(null);
+      } else {
+        onSnapshot(doc(this.firestore, "categories", id), (doc) => {
+          let data = doc.data()
+          if (data) {
+            subscriber.next({
+              id: doc.id,
+              description: data['description'],
+              name: data['name'],
+              incomes: []
+            });
+          }
+          subscriber.next(null);
+        });
+      }
+    })
   }
 
   /** POST add categories */
-  addCategory(category: Category): Observable<Category> {
-    return this.http.post<Category>(this.categoriesUrl, category, this.httpOptions).pipe(
-      tap((newCategory: Category) => this.log(`added category w/ id=${newCategory.id}`)),
-      catchError(this.handleError<Category>('addCategory'))
-    );
+  addCategory(category: Category) {
+    addDoc(collection(this.firestore, 'categories'), {
+      description: category.description,
+      name: category.name,
+      incomes: []
+    })
   }
 
   /** PUT: update the category on the server */
-  updateCategory(category: Category): Observable<any> {
-    return this.http.put(this.categoriesUrl, category, this.httpOptions).pipe(
-      tap(_ => this.log(`updated category id=${category.id}`)),
-      catchError(this.handleError<any>('updateCategory'))
-    );
+  updateCategory(category: Category) {
+    const { id, ...object } = Object.assign({}, category);
+    updateDoc(doc(this.firestore, "categories", category.id), object);
   }
 
   /** DELETE: delete the category from the server */
-  deleteCategory(id: number): Observable<Category> {
-    const url = `${this.categoriesUrl}/${id}`;
-
-    return this.http.delete<Category>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted category id=${id}`)),
-      catchError(this.handleError<Category>('deleteCategory'))
-    );
+  deleteCategory(id: string) {
+    deleteDoc(doc(this.firestore, 'categories', id))
   }
 
 

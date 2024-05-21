@@ -26,16 +26,21 @@ export class CategoryDetailComponent {
   }
 
   getCategory(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.categoryService.getCategory(id)
-      .subscribe(category => this.category= category);
+    const id = this.route.snapshot.paramMap.get('id') ?? "";
+    let observable = this.categoryService.getCategory(id);
+    if(observable){
+      observable.subscribe(category => {
+        if(category) {
+          this.category = category
+        }
+      });
+    }
   }
 
   save(): void {
     if (this.category) {
       // update all incomes with this category
       this.categoryService.updateCategory(this.category)
-        .subscribe(() => this.goBack());
     }
   }
 
@@ -44,9 +49,8 @@ export class CategoryDetailComponent {
   }
 
   delete(): void {
-    if (this.category) {
+    if (this.category && this.category.id) {
       this.categoryService.deleteCategory(this.category.id)
-        .subscribe(() => this.goBack());
     }
   }
 

@@ -36,7 +36,7 @@ export class IncomeService {
       if (id == "") {
         subscriber.next(null);
       } else {
-        onSnapshot(doc(this.firestore, "festivals", id), (doc) => {
+        onSnapshot(doc(this.firestore, "transactions", id), (doc) => {
           let data = doc.data()
           if (data) {
             subscriber.next({

@@ -112,8 +112,5 @@ export class CategoriesComponent implements AfterViewInit {
     description = description.trim();
     if (!name || !description) { return; }
     this.categoryService.addCategory({ name, description } as Category)
-      .subscribe(category => {
-        this.categories.push(category);
-      });
   }
 }
