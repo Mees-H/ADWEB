@@ -1,6 +1,7 @@
 <div>
   <p>Alle categorieën:</p>
   <div class="chartsWrapper">
+    <div><canvas baseChart [data]="budgetBarChartData" [type]="'bar'"></canvas></div>
     <div><canvas baseChart [data]="barChartData" [type]="'bar'"></canvas></div>
     <div><canvas baseChart [data]="lineGraphData" [type]="'line'"></canvas></div>
   </div>
@@ -9,7 +10,7 @@
   <ul class="categories" *ngIf="categories.length; else loading">
     <li *ngFor="let category of categories">
       <a routerLink="/categories/{{category.id}}">
-        <span class="badge">{{category.name}}</span> €{{category.max_budget}}
+        <span class="badge">{{category.name}}</span> Budget: €{{category.max_budget}}
       </a>
     </li>
   </ul>

@@ -21,6 +21,7 @@ export class CategoriesComponent implements AfterViewInit {
   incomes: Income[] = [];
 
   public barChartData : ChartData = {datasets:[], labels: []};
+  public budgetBarChartData : ChartData = {datasets:[], labels: []};
   public lineGraphData : ChartData = {datasets:[], labels: []};
 
   name = '';
@@ -46,9 +47,19 @@ export class CategoriesComponent implements AfterViewInit {
       totals.push(total)
     }
 
+    let totalBudgets : number[] = []
+    for (let i = 0; i < this.categories.length; i++) {
+      totalBudgets.push(this.categories[i].max_budget + totals[i])
+    }
+
     this.barChartData = {datasets:[
       {data: totals, label: 'Uitgaven per categorie'}
     ], labels: this.categories.map(c => c.name)};
+
+    this.budgetBarChartData = {datasets:[
+      {data: totalBudgets, label: 'Budget over per categorie'}
+    ], labels: this.categories.map(c => c.name)};
+      
   }
 
   getListOfMonths(from: Date, to : Date) : string[]{
