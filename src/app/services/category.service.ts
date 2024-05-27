@@ -19,8 +19,6 @@ export class CategoryService {
     this.firestore = getFirestore(app);
   }
 
-  private categoriesUrl = 'api/categories';  // URL to web api
-
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -37,8 +35,10 @@ export class CategoryService {
         snapshot.forEach(x => {
           categories.push({
             id: x.id,
-            description: x.data()['description'],
             name: x.data()['name'],
+            description: x.data()['description'],
+            max_budget: x.data()['max_budget'],
+            end_date: x.data()['end_date'],
             incomes: []
           });
         })
@@ -58,8 +58,10 @@ export class CategoryService {
           if (data) {
             subscriber.next({
               id: doc.id,
-              description: data['description'],
               name: data['name'],
+              description: data['description'],
+              max_budget: data['max_budget'],
+              end_date: data['end_date'],
               incomes: []
             });
           }
@@ -74,6 +76,8 @@ export class CategoryService {
     addDoc(collection(this.firestore, 'categories'), {
       description: category.description,
       name: category.name,
+      max_budget: category.max_budget,
+      end_date: category.end_date,
       incomes: []
     })
   }

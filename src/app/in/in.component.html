@@ -8,7 +8,7 @@
             <li *ngFor="let income of positiveIncomes">
               <ng-container *ngIf="income.category === category.name">
                 <a routerLink="/in-uit/in/{{income.id}}">
-                  <span class="badge">{{income.id}}</span> {{income.name}} - €{{income.cash}}
+                  <span class="badge">{{income.name}}</span>€{{income.cash}}
                 </a>
               </ng-container>
             </li>
@@ -26,7 +26,7 @@
             <li *ngFor="let income of negativeIncomes">
               <ng-container *ngIf="income.category === category.name">
                 <a routerLink="/in-uit/in/{{income.id}}">
-                  <span class="badge">{{income.id}}</span> {{income.name}} - €{{income.cash}}
+                  <span class="badge">{{income.name}}</span>€{{income.cash}}
                 </a>
               </ng-container>
             </li>

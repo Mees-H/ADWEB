@@ -107,10 +107,12 @@ export class CategoriesComponent implements AfterViewInit {
     })
   }
 
-  add(name: string, description: string): void {
+  add(name: string, description: string, max_budget: string, end_date: string): void {
     name = name.trim();
     description = description.trim();
-    if (!name || !description) { return; }
-    this.categoryService.addCategory({ name, description } as Category)
+    const max_budgetNumber = Number(max_budget);
+    const end_dateDate = new Date(end_date);
+    if (!name || !description || !max_budget) { return; }
+    this.categoryService.addCategory({ name, description, max_budget: max_budgetNumber, end_date: end_dateDate } as Category)
   }
 }
