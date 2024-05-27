@@ -24,14 +24,17 @@
   <h2>Voeg categorieën toe:</h2>
   <div>
     <label for="new-category-name">Categorie naam: </label>
-    <input id="new-category-name" #categoryName />
+    <input id="new-category-name"[(ngModel)]="name" />
     <label for="new-category-desc">Categorie beschrijving: </label>
-    <input id="new-category-desc" #categoryDescription />
+    <input id="new-category-desc" [(ngModel)]="description" />
     <label for="new-category-max_budget">Categorie maximale budget:</label>
-    <input type="number" id="new-category-max_budget" #categoryMaxBudget />
+    <input type="number" id="new-category-max_budget" [(ngModel)]="max_budget" />
     <label for="new-category-end_date">Categorie einddatum:</label>
-    <input id="new-category-end_date" #categoryEndDate />
-    <button type="button" class="add-button" (click)="add(categoryName.value, categoryDescription.value, categoryMaxBudget.value, categoryEndDate.value); categoryName.value=''; categoryDescription.value=''; categoryMaxBudget.value=''; categoryEndDate.value=''">
+    <input type="date" id="new-category-end_date" [(ngModel)]="end_date" />
+    <ng-container *ngFor="let errorMessage of errorMessages">
+      <div *ngIf="errorMessage" class="alert">{{ errorMessage }}</div>
+    </ng-container>
+    <button type="button" class="add-button" (click)="add(name, description, max_budget, end_date);">
       voeg categorie toe
-    </button>s
+    </button>
   </div>

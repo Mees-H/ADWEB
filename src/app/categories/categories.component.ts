@@ -16,14 +16,22 @@ import {IncomeService} from "../services/income.service";
 export class CategoriesComponent implements AfterViewInit {
   constructor(private categoryService: CategoryService, private incomeService: IncomeService, private messageService: MessageService, private elementRef: ElementRef) { }
 
+  categories: Category[] = [];
+  incomes: Income[] = [];
+
+  public barChartData : ChartData = {datasets:[], labels: []};
+  public lineGraphData : ChartData = {datasets:[], labels: []};
+
+  name = '';
+  description = '';
+  max_budget = '';
+  end_date = '';
+
+  errorMessages: string[] = [];
+
   ngAfterViewInit(): void {
     this.getCategories();
   }
-
-  categories: Category[] = [];
-  incomes: Income[] = [];
-  public barChartData : ChartData = {datasets:[], labels: []};
-  public lineGraphData : ChartData = {datasets:[], labels: []};
 
   updateTotalsChart() : void{
     let totals : number[] = []
@@ -87,7 +95,7 @@ export class CategoriesComponent implements AfterViewInit {
       totalsPerCategory.push({category: this.categories[i], totalsPerMonth: totals})
     }
 
-    let datasets = []
+    let datasets: { data: number[]; label: string; }[] = [];
     for (let i = 0; i < totalsPerCategory.length; i++) {
       datasets.push({data: totalsPerCategory[i].totalsPerMonth, label: totalsPerCategory[i].category.name})
     }
@@ -107,12 +115,22 @@ export class CategoriesComponent implements AfterViewInit {
     })
   }
 
-  add(name: string, description: string, max_budget: string, end_date: string): void {
+  add(name: string, description: string, max_budget: string, end_date: string | null): void {
     name = name.trim();
     description = description.trim();
     const max_budgetNumber = Number(max_budget);
-    const end_dateDate = new Date(end_date);
-    if (!name || !description || !max_budget) { return; }
+    const end_dateDate = end_date ? new Date(end_date): null;
+    this.errorMessages = [];
+    if (!name) { this.errorMessages.push('Naam is verplicht.'); }
+    if (!description) { this.errorMessages.push('Categorie is verplicht.'); }
+    if (!max_budget) { this.errorMessages.push('Maximale budget is verplicht.'); }
+    if (this.errorMessages.length > 0) { return; }
     this.categoryService.addCategory({ name, description, max_budget: max_budgetNumber, end_date: end_dateDate } as Category)
+
+    // Clear the form
+    this.name = '';
+    this.description = '';
+    this.max_budget = '';
+    this.end_date = '';
   }
 }

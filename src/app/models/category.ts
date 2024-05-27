@@ -5,6 +5,6 @@ export interface Category {
     name: string;
     description: string;
     max_budget: number;
-    end_date: Date;
+    end_date: Date | null;
     incomes: Income[];
 }
