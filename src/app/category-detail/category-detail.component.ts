@@ -31,7 +31,11 @@ export class CategoryDetailComponent {
     if(observable){
       observable.subscribe(category => {
         if(category) {
-          this.category = category
+          this.category = category;
+          if (this.category.end_date) {
+            let timestamp = this.category.end_date as any;
+            this.category.end_date = timestamp.toDate();
+          }
         }
       });
     }
@@ -51,6 +55,8 @@ export class CategoryDetailComponent {
   delete(): void {
     if (this.category && this.category.id) {
       this.categoryService.deleteCategory(this.category.id)
+      // also delete all matching incomes
+      this.incomeService.deleteIncomesByCategory(this.category.name)
     }
   }
 

@@ -6,6 +6,7 @@ import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {ChartData} from "chart.js";
 import {Income} from "../models/income";
 import {IncomeService} from "../services/income.service";
+import { max } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -119,11 +120,12 @@ export class CategoriesComponent implements AfterViewInit {
     name = name.trim();
     description = description.trim();
     const max_budgetNumber = Number(max_budget);
-    const end_dateDate = end_date ? new Date(end_date): null;
+    const end_dateDate = end_date ? new Date(end_date).toISOString().split('T')[0]: null;
     this.errorMessages = [];
     if (!name) { this.errorMessages.push('Naam is verplicht.'); }
     if (!description) { this.errorMessages.push('Categorie is verplicht.'); }
     if (!max_budget) { this.errorMessages.push('Maximale budget is verplicht.'); }
+    if (max_budgetNumber <= 0) { this.errorMessages.push('Maximale budget moet groter zijn dan 0.'); }
     if (this.errorMessages.length > 0) { return; }
     this.categoryService.addCategory({ name, description, max_budget: max_budgetNumber, end_date: end_dateDate } as Category)
 

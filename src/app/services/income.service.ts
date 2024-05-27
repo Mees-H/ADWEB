@@ -20,8 +20,6 @@ export class IncomeService {
     this.firestore = getFirestore(app);
   }
 
-  private incomeUrl = 'api/income';  // URL to web api
-
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -95,6 +93,17 @@ export class IncomeService {
   /** DELETE: delete the income from the server */
   deleteIncome(incomeId: string){
     deleteDoc(doc(this.firestore, 'transactions', incomeId))
+  }
+
+  /** DELETE: delete all incomes from the server */
+  deleteIncomesByCategory(category: string){
+    onSnapshot(collection(this.firestore, 'transactions'), (snapshot) => {
+      snapshot.forEach(x => {
+        if (x.data()['category'] === category) {
+          deleteDoc(doc(this.firestore, 'transactions', x.id))
+        }
+      })
+    })
   }
 
   /**
