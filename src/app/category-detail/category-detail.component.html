@@ -11,6 +11,9 @@
       <label for="category-end_date">Categorie Einddatum:</label>
       <input type="date" id="category-end_date" [(ngModel)]="category.end_date" placeholder="end_date">
     </div>
+    <ng-container *ngFor="let errorMessage of errorMessages">
+      <div *ngIf="errorMessage" class="alert">{{ errorMessage }}</div>
+    </ng-container>
     <button type="button" (click)="goBack()">terug</button>
     <button type="button" (click)="save()">opslaan</button>
     <button type="button" (click)="delete()">verwijderen</button>

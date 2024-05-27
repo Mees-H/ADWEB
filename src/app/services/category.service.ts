@@ -85,6 +85,9 @@ export class CategoryService {
   /** PUT: update the category on the server */
   updateCategory(category: Category) {
     const { id, ...object } = Object.assign({}, category);
+    if (object.end_date === undefined) {
+      object.end_date = null;
+    }
     updateDoc(doc(this.firestore, "categories", category.id), object);
   }
 
@@ -92,4 +95,21 @@ export class CategoryService {
   deleteCategory(id: string) {
     deleteDoc(doc(this.firestore, 'categories', id))
   }
+
+  /** GET all incomes cash matching category */
+  getIncomesCash(category: string): Observable<number> {
+    return new Observable((subscriber: Subscriber<number>) => {
+      onSnapshot(collection(this.firestore, 'transactions'), (snapshot) => {
+        let totalIncome = 0;
+        snapshot.forEach(x => {
+          if (x.data()['category'] === category) {
+            totalIncome += x.data()['cash'];
+          }
+        })
+        subscriber.next(totalIncome);
+      })
+    })
+  }
+  
+  
 }
