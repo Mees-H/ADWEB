@@ -1,0 +1,24 @@
+<div *ngIf="category; else loading">
+    <h2>{{category.name | uppercase}} Details</h2>
+    <div><span>id: </span>{{category.id}}</div>
+    <div class="vertical">
+      <label for="category-name">Categorie naam: </label>
+      <input id="category-name" [(ngModel)]="category.name" placeholder="name">
+      <label for="category-description">Categorie beschrijving: </label>
+      <input id="category-description" [(ngModel)]="category.description" placeholder="description">
+      <label for="category-max_budget">Categorie maximale budget:</label>
+      <input type="number" id="category-max_budget" [(ngModel)]="category.max_budget" placeholder="max_budget">
+      <label for="category-end_date">Categorie Einddatum:</label>
+      <input type="date" id="category-end_date" [(ngModel)]="category.end_date" placeholder="end_date">
+    </div>
+    <ng-container *ngFor="let errorMessage of errorMessages">
+      <div *ngIf="errorMessage" class="alert">{{ errorMessage }}</div>
+    </ng-container>
+    <button type="button" (click)="goBack()">terug</button>
+    <button type="button" (click)="save()">opslaan</button>
+    <button type="button" (click)="delete()">verwijderen</button>
+  </div>
+
+  <ng-template #loading>
+    <div class="mt"><span class="loader"></span></div>
+  </ng-template>

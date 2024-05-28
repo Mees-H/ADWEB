@@ -1,0 +1,41 @@
+<div>
+  <p>Alle categorieën:</p>
+  <div class="chartsWrapper">
+    <div><canvas baseChart [data]="budgetBarChartData" [type]="'bar'"></canvas></div>
+    <div><canvas baseChart [data]="barChartData" [type]="'bar'"></canvas></div>
+    <div><canvas baseChart [data]="lineGraphData" [type]="'line'"></canvas></div>
+  </div>
+
+
+  <ul class="categories" *ngIf="categories.length; else loading">
+    <li *ngFor="let category of categories">
+      <a routerLink="/categories/{{category.id}}">
+        <span class="badge">{{category.name}}</span> Budget: €{{category.max_budget}}
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  <ng-template #loading>
+    <div class="mt"><span class="loader"></span></div>
+  </ng-template>
+
+  <hr>
+  <h2>Voeg categorieën toe:</h2>
+  <div>
+    <label for="new-category-name">Categorie naam: </label>
+    <input id="new-category-name"[(ngModel)]="name" />
+    <label for="new-category-desc">Categorie beschrijving: </label>
+    <input id="new-category-desc" [(ngModel)]="description" />
+    <label for="new-category-max_budget">Categorie maximale budget:</label>
+    <input type="number" id="new-category-max_budget" [(ngModel)]="max_budget" />
+    <label for="new-category-end_date">Categorie einddatum:</label>
+    <input type="date" id="new-category-end_date" [(ngModel)]="end_date" />
+    <ng-container *ngFor="let errorMessage of errorMessages">
+      <div *ngIf="errorMessage" class="alert">{{ errorMessage }}</div>
+    </ng-container>
+    <button type="button" class="add-button" (click)="add(name, description, max_budget, end_date);">
+      voeg categorie toe
+    </button>
+  </div>

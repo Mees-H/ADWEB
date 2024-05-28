@@ -1,0 +1,64 @@
+  <div class="horizontal" *ngIf="positiveIncomes.length || negativeIncomes.length; else loading">
+    <ul class="categories" >
+      <p>Alle inkomsten:</p>
+      <ng-container *ngFor="let category of categories">
+        <li *ngIf="hasPositiveIncomes(category.name)">
+          <h2>Categorie <b>{{category.name}}</b></h2>
+          <ul class="incomes">
+            <li *ngFor="let income of positiveIncomes">
+              <ng-container *ngIf="income.category === category.name">
+                <a routerLink="/in-uit/in/{{income.id}}">
+                  <span class="badge">{{income.name}}</span>€{{income.cash}}
+                </a>
+              </ng-container>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+      <p> Totale inkomsten: €{{ totalPositiveIncome }}</p>
+    </ul>
+    <ul class="categories">
+      <p>Alle uitgaven:</p>
+      <ng-container *ngFor="let category of categories">
+        <li *ngIf="hasNegativeIncomes(category.name)">
+          <h2>Categorie <b>{{category.name}}</b></h2>
+          <ul class="incomes">
+            <li *ngFor="let income of negativeIncomes">
+              <ng-container *ngIf="income.category === category.name">
+                <a routerLink="/in-uit/in/{{income.id}}">
+                  <span class="badge">{{income.name}}</span>€{{income.cash}}
+                </a>
+              </ng-container>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+      <p> Totale uitgaven: €{{ totalNegativeIncome }}</p>
+    </ul>
+  </div>
+  
+  <ng-template #loading>
+    <div class="mt"><span class="loader"></span></div>
+  </ng-template>
+
+  <ng-template #emptyCatagory>
+    <p>no categories</p>
+  </ng-template>
+  
+  <hr>
+  <h2>Voeg transacties toe:</h2>
+  <div>
+    <label for="new-income-name">Transactie naam: </label>
+    <input id="new-income-name" #inkomstName />
+    <label for="new-income-cash">Transactie bedrag: </label>
+    <input type="number" id="new-income-cash" #inkomstCash placeholder="Positief voor inkomst, negatief voor uitgave"/>
+    <label for="new-income-desc">Transactie beschrijving: </label>
+    <input id="new-income-desc" #inkomstDescription/>
+    <label for="new-income-category">Transactie categorie: </label>
+    <select id="new-income-category" #inkomstCategory >
+      <option *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>
+    </select>
+    <button type="button" class="add-button" (click)="add(inkomstName.value, inkomstCash.value, inkomstDescription.value, inkomstCategory.value); inkomstName.value=''; inkomstCash.value=''; inkomstDescription.value=''; inkomstCategory.value=''">
+      voeg transactie toe
+    </button>
+  </div>
