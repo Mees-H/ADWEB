@@ -1,9 +1,12 @@
 <ul class="boekjes" *ngIf="boekjes.length; else loading">
   <p>Alle niet-gearchiveerde boekjes:</p>
   <li *ngFor="let boekje of boekjes">
-    <a routerLink="/boekjes/{{boekje.id}}">
-      <span class="badge">{{boekje.id}}</span> {{boekje.name}}
-    </a>
+    <div class="horizontal">
+      <a routerLink="/boekjes/{{boekje.id}}/in-uit">
+        <span class="badge">{{boekje.id}}</span> {{boekje.name}}
+      </a>
+      <a routerLink="/boekjes/{{boekje.id}}">Edit</a>
+    </div>
   </li>
 </ul>
 

@@ -3,6 +3,7 @@ import { IncomeService } from '../services/income.service';
 import { Income } from '../models/income';
 import { CategoryService } from '../services/category.service';
 import { Category } from '../models/category';
+import { Boekje } from '../models/boekje';
 
 @Component({
   selector: 'app-in',
@@ -26,6 +27,7 @@ export class InComponent {
   totalPositiveIncome: number = 0;
   totalNegativeIncome: number = 0;
   categories: Category[] = [];
+  boekje: Boekje = {} as Boekje;
 
   hasPositiveIncomes(categoryName: string): boolean {
     return this.positiveIncomes.some(income => income.category === categoryName);

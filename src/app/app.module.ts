@@ -17,9 +17,7 @@ import { BoekjesComponentArchived } from './boekjes-archived/boekjes-archived.co
 import { InUitComponent } from './in-uit/in-uit.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { InComponent } from './in/in.component';
-import { OutComponent } from './out/out.component';
 import { InDetailComponent } from './in-detail/in-detail.component';
-import { UitDetailComponent } from './uit-detail/uit-detail.component';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
 import {BaseChartDirective} from "ng2-charts";
 import { delay } from 'rxjs';
@@ -49,9 +47,7 @@ import { delay } from 'rxjs';
     MessagesComponent,
     InUitComponent,
     InComponent,
-    OutComponent,
     InDetailComponent,
-    UitDetailComponent,
     CategoriesComponent,
     CategoryDetailComponent
   ],
