@@ -1,8 +1,10 @@
 <div class="mt">
-<label for="month-picker">Kies een maand en jaar: </label>
-<select id="month-picker" [(ngModel)]="selectedMonth" (change)="filterIncomesByMonth()">
-  <option *ngFor="let month of months" [value]="month">{{ datePipe.transform(month, 'MMMM yyyy') }}</option>
-</select>
+  <ng-container *ngIf="months.length > 0; else emptyTrans">
+    <label for="month-picker">Kies een maand en jaar: </label>
+    <select id="month-picker" [(ngModel)]="selectedMonth" (change)="filterIncomesByMonth()">
+      <option *ngFor="let month of months" [value]="month">{{ datePipe.transform(month, 'MMMM yyyy') }}</option>
+    </select>
+  </ng-container>
   <ng-container *ngIf="selectedMonth">
     <div class="horizontal" *ngIf="(positiveIncomes.length > 0 || negativeIncomes.length > 0); else loading">
       <ul class="categories" *ngIf="positiveIncomes.length > 0">
@@ -48,7 +50,11 @@
   </ng-template>
 
   <ng-template #emptyCatagory>
-    <p>no categories</p>
+    <p>Er zijn geen categorieen.</p>
+  </ng-template>
+
+  <ng-template #emptyTrans>
+    <p>Er zijn geen transacties voor dit boekje.</p>
   </ng-template>
   
   <hr>
