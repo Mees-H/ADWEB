@@ -5,4 +5,5 @@ export interface Income {
     date: Date;
     description: string;
     category: string;
+    boekjeId: string;
 }

@@ -5,5 +5,4 @@ export interface Boekje {
     name: string;
     description: string;
     archived: boolean;
-    categories: Category[];
 }

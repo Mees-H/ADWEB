@@ -120,7 +120,8 @@ export class CategoriesComponent implements AfterViewInit {
       this.updateTotalsChart()
       this.updateTotalsPerMonthChart()
     })
-    this.incomeService.getIncomes().subscribe(incomes => {
+    // TODO: add dynamic boekje selector for categories
+    this.incomeService.getIncomes("1").subscribe(incomes => {
       this.incomes = incomes
       this.updateTotalsChart()
       this.updateTotalsPerMonthChart()
