@@ -53,19 +53,23 @@ export class IncomeService {
   }
 
   /** GET income from the server */
-  getIncomes(): Observable<Income[]> {
+  getIncomes(boekjeId: string): Observable<Income[]> {
     return new Observable((subscriber: Subscriber<any[]>) => {
       onSnapshot(collection(this.firestore, 'transactions'), (snapshot) => {
         let incomes: Income[] = []
         snapshot.forEach(x => {
-          incomes.push({
+          let income = {
             id: x.id,
             date: x.data()['date'].toDate(),
             cash: x.data()['cash'],
             description: x.data()['description'],
             name: x.data()['name'],
             category: x.data()['category'],
-          });
+            boekjeId: x.data()['boekjeId']
+          };
+          if (income.boekjeId === boekjeId) {
+            incomes.push(income);
+          }
         })
         subscriber.next(incomes);
       })
@@ -87,6 +91,7 @@ export class IncomeService {
       description: income.description,
       name: income.name,
       category: income.category,
+      boekjeId: income.boekjeId
     })
   }
 
