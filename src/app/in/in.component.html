@@ -1,5 +1,5 @@
 <div class="mt">
-  <ng-container *ngIf="months.length > 0; else emptyTrans">
+  <ng-container *ngIf="months.length > 0; else loading">
     <label for="month-picker">Kies een maand en jaar: </label>
     <select id="month-picker" [(ngModel)]="selectedMonth" (change)="filterIncomesByMonth()">
       <option *ngFor="let month of months" [value]="month">{{ datePipe.transform(month, 'MMMM yyyy') }}</option>
@@ -51,10 +51,6 @@
 
   <ng-template #emptyCatagory>
     <p>Er zijn geen categorieen.</p>
-  </ng-template>
-
-  <ng-template #emptyTrans>
-    <p>Er zijn geen transacties voor dit boekje.</p>
   </ng-template>
   
   <hr>
