@@ -105,7 +105,6 @@ export class IncomeService {
     onSnapshot(collection(this.firestore, 'transactions'), (snapshot) => {
       snapshot.forEach(x => {
         if (x.data()['category'] === category) {
-          // TODO: maybe check for boekjeId?
           deleteDoc(doc(this.firestore, 'transactions', x.id))
         }
       })

@@ -7,6 +7,8 @@ import {ChartData} from "chart.js";
 import {Income} from "../models/income";
 import {IncomeService} from "../services/income.service";
 import { max } from 'rxjs';
+import { Boekje } from '../models/boekje';
+import { BoekjeService } from '../services/boekje.service';
 
 @Component({
   selector: 'app-categories',
@@ -15,10 +17,12 @@ import { max } from 'rxjs';
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent implements AfterViewInit {
-  constructor(private categoryService: CategoryService, private incomeService: IncomeService, private messageService: MessageService, private elementRef: ElementRef) { }
+  constructor(private categoryService: CategoryService, private incomeService: IncomeService, private messageService: MessageService, private boekjeService: BoekjeService) { }
 
   categories: Category[] = [];
   incomes: Income[] = [];
+  boekjes: Boekje[] = [];
+  selectedBoekje: string = "1";
 
   public barChartData : ChartData = {datasets:[], labels: []};
   public budgetBarChartData : ChartData = {datasets:[], labels: []};
@@ -31,8 +35,16 @@ export class CategoriesComponent implements AfterViewInit {
 
   errorMessages: string[] = [];
 
+  ngOnInit(): void {
+    this.getBoekjes();
+  }
+
   ngAfterViewInit(): void {
     this.getCategories();
+  }
+
+  getBoekjes(): void {
+    this.boekjeService.getBoekjes().subscribe(boekjes => this.boekjes = boekjes);
   }
 
   updateTotalsChart() : void{
@@ -120,8 +132,7 @@ export class CategoriesComponent implements AfterViewInit {
       this.updateTotalsChart()
       this.updateTotalsPerMonthChart()
     })
-    // TODO: add dynamic boekje selector for categories
-    this.incomeService.getIncomes("1").subscribe(incomes => {
+    this.incomeService.getIncomes(this.selectedBoekje).subscribe(incomes => {
       this.incomes = incomes
       this.updateTotalsChart()
       this.updateTotalsPerMonthChart()

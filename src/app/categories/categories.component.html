@@ -1,12 +1,15 @@
-<div>
-  <p>Alle categorieën:</p>
+<div class="mt">
+  <label for="boekje-select">Kies boekje: </label>
+  <select id="boekje-select" [(ngModel)]="selectedBoekje" (change)="getCategories()">
+    <option *ngFor="let boekje of boekjes" [value]="boekje.id">{{boekje.name}}</option>
+  </select>
   <div class="chartsWrapper">
     <div><canvas baseChart [data]="budgetBarChartData" [type]="'bar'"></canvas></div>
     <div><canvas baseChart [data]="barChartData" [type]="'bar'"></canvas></div>
     <div><canvas baseChart [data]="lineGraphData" [type]="'line'"></canvas></div>
   </div>
 
-
+  <p>Alle categorieën:</p>
   <ul class="categories" *ngIf="categories.length; else loading">
     <li *ngFor="let category of categories">
       <a routerLink="/categories/{{category.id}}">
