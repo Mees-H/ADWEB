@@ -21,6 +21,7 @@ import { InDetailComponent } from './in-detail/in-detail.component';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
 import {BaseChartDirective} from "ng2-charts";
 import { delay } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import { delay } from 'rxjs';
     CategoriesComponent,
     CategoryDetailComponent
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  providers: [ DatePipe ]
 })
 export class AppModule { }
 
