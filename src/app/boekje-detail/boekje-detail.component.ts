@@ -25,7 +25,7 @@ export class BoekjeDetailComponent {
   }
   
   getBoekje(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = String(this.route.snapshot.paramMap.get('id'));
     this.boekjeService.getBoekje(id)
       .subscribe(boekje => this.boekje = boekje);
   }

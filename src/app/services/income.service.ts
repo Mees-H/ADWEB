@@ -21,10 +21,6 @@ export class IncomeService {
     this.firestore = getFirestore(app);
   }
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   private log(message: string) {
     this.messageService.add(`BoekjeService: ${message}`);
   }
