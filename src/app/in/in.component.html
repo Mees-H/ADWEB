@@ -42,7 +42,18 @@
         </ng-container>
       </ul>
     </div>
+    <h4>Categorieën zonder transacties:</h4>
+    <ul class="categories">
+      <ng-container *ngFor="let category of categories">
+        <ul>
+          <li *ngIf="!hasPositiveIncomes(category.name) && !hasNegativeIncomes(category.name)">
+            {{category.name}}
+          </li>
+        </ul>
+      </ng-container>
+    </ul>
   </ng-container>
+
   
   <ng-template #loading>
     <div class="mt"><span class="loader"></span></div>
