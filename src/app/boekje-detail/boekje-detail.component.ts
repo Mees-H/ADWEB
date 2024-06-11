@@ -23,11 +23,19 @@ export class BoekjeDetailComponent {
   ngOnInit(): void {
     this.getBoekje();
   }
-  
+
   getBoekje(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.boekjeService.getBoekje(id)
-      .subscribe(boekje => this.boekje = boekje);
+    const id = this.route.snapshot.paramMap.get('id') ?? "";
+
+    let observableBoekje = this.boekjeService.getBoekje(id);
+    if(observableBoekje) {
+      observableBoekje.subscribe(boekje => {
+        if(boekje){
+          this.boekje = boekje
+        }
+
+      });
+    }
   }
 
   goBack(): void {
@@ -37,7 +45,6 @@ export class BoekjeDetailComponent {
   save(): void {
     if (this.boekje) {
       this.boekjeService.updateBoekje(this.boekje)
-        .subscribe(() => this.goBack());
     }
-  }  
+  }
 }

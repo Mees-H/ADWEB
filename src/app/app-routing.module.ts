@@ -9,6 +9,8 @@ import { InComponent } from './in/in.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { InDetailComponent } from './in-detail/in-detail.component';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
+import {LoginComponent} from "./login/login.component";
+import {RegisterComponent} from "./register/register.component";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -19,7 +21,9 @@ export const routes: Routes = [
   { path: 'boekjes/:id/in-uit/in/:id', component: InDetailComponent},
   { path: 'boekjes/:id/in-uit', component: InComponent},
   { path: 'categories', component: CategoriesComponent},
-  { path: 'categories/:id', component: CategoryDetailComponent}
+  { path: 'categories/:id', component: CategoryDetailComponent},
+  { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent}
 ];
 
 @NgModule({

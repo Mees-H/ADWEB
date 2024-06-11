@@ -21,6 +21,8 @@ import { CategoryDetailComponent } from './category-detail/category-detail.compo
 import {BaseChartDirective} from "ng2-charts";
 import { delay } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 
 
 @NgModule({
@@ -52,7 +54,15 @@ import { DatePipe } from '@angular/common';
     CategoryDetailComponent
   ],
   bootstrap: [ AppComponent ],
-  providers: [ DatePipe ]
+  providers: [DatePipe, provideFirebaseApp(() => initializeApp({
+    "projectId": "adweb-cc478",
+    "appId": "1:132154462752:web:5c4c2fea7a71c9f57f2245",
+    "storageBucket": "adweb-cc478.appspot.com",
+    "apiKey": "AIzaSyDYxfSleOSxM9EAz1eiZRAI6h30RxC5Cm4",
+    "authDomain": "adweb-cc478.firebaseapp.com",
+    "messagingSenderId": "132154462752",
+    "measurementId": "G-E0X9Z71VCE"
+  })), provideAuth(() => getAuth())]
 })
 export class AppModule { }
 
