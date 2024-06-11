@@ -47,7 +47,42 @@ export class CategoriesComponent implements AfterViewInit {
     this.boekjeService.getBoekjes().subscribe(boekjes => this.boekjes = boekjes);
   }
 
+  getBarColors(budgets: number[], maxBudgets: number[]): string[] {
+    return budgets.map((budget, index) => {
+      if (budget > 0 && budget <= maxBudgets[index] * 0.1) {
+        return 'yellow';
+      } else if (budget <= 0) {
+        return 'red';
+      } else {
+        return 'blue';
+      }
+    });
+  }
+
   updateTotalsChart() : void{
+
+    let totals = this.getTotals();
+    let totalBudgets = this.getTotalBudgets(totals);
+
+    this.barChartData = {datasets:[
+      {data: totals, label: 'Uitgaven per categorie'}
+    ], labels: this.categories.map(c => c.name)};
+
+    this.budgetBarChartData = {datasets:[
+      {data: totalBudgets, label: 'Budget over per categorie', backgroundColor: this.getBarColors(totalBudgets, this.categories.map(c => c.max_budget))}
+    ], labels: this.categories.map(c => c.name)};
+      
+  }
+
+  getTotalBudgets(totals: number[]): number[] {
+    let totalBudgets : number[] = []
+    for (let i = 0; i < this.categories.length; i++) {
+      totalBudgets.push(this.categories[i].max_budget + totals[i])
+    }
+    return totalBudgets;
+  }
+
+  getTotals(): number[] {
     let totals : number[] = []
     for (let i = 0; i < this.categories.length; i++) {
       let total = 0
@@ -58,20 +93,7 @@ export class CategoriesComponent implements AfterViewInit {
       }
       totals.push(total)
     }
-
-    let totalBudgets : number[] = []
-    for (let i = 0; i < this.categories.length; i++) {
-      totalBudgets.push(this.categories[i].max_budget + totals[i])
-    }
-
-    this.barChartData = {datasets:[
-      {data: totals, label: 'Uitgaven per categorie'}
-    ], labels: this.categories.map(c => c.name)};
-
-    this.budgetBarChartData = {datasets:[
-      {data: totalBudgets, label: 'Budget over per categorie'}
-    ], labels: this.categories.map(c => c.name)};
-      
+    return totals
   }
 
   getListOfMonths(from: Date, to : Date) : string[]{
