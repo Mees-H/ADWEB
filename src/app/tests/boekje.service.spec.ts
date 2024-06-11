@@ -40,7 +40,7 @@ describe('BoekjeService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Ensure that there are no outstanding requests
+    httpMock.verify(); 
   });
 
   it('should GET boekje by id', () => {
@@ -53,7 +53,6 @@ describe('BoekjeService', () => {
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     req.flush(mockBoekjes[0]);
-    httpMock.verify();
   });
 
   it('should GET all non-archived boekjes', () => {
@@ -67,7 +66,6 @@ describe('BoekjeService', () => {
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     req.flush(mockBoekjes);
-    httpMock.verify();
   });
 
   it('should GET all archived boekjes', () => {
@@ -81,7 +79,6 @@ describe('BoekjeService', () => {
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     req.flush(mockBoekjes);
-    httpMock.verify();
   });
 
   it('should POST boekje', () => {
@@ -95,7 +92,6 @@ describe('BoekjeService', () => {
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     req.flush(updatedBoekje);
-    httpMock.verify();
   });
 
   it('should PUT boekje by id', () => {
@@ -109,7 +105,6 @@ describe('BoekjeService', () => {
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     req.flush(updatedBoekje);
-    httpMock.verify();
   });
 
   it('should DELETE boekje by id', () => {
@@ -122,7 +117,6 @@ describe('BoekjeService', () => {
     expect(req.cancelled).toBeFalsy();
     expect(req.request.responseType).toEqual('json');
     req.flush(mockBoekjes[0]);
-    httpMock.verify();
   });
   
 });
