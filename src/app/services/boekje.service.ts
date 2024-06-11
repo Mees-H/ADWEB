@@ -12,7 +12,7 @@ export class BoekjeService {
 
   constructor(private messageService: MessageService, private http: HttpClient) { }
 
-  private boekjesUrl = 'api/boekjes';  // URL to web api
+  boekjesUrl = 'api/boekjes';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

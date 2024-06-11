@@ -14,7 +14,6 @@ import { MessagesComponent } from './messages/messages.component';
 import { BoekjesComponent } from './boekjes/boekjes.component';
 import { BoekjeDetailComponent } from './boekje-detail/boekje-detail.component';
 import { BoekjesComponentArchived } from './boekjes-archived/boekjes-archived.component';
-import { InUitComponent } from './in-uit/in-uit.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { InComponent } from './in/in.component';
 import { InDetailComponent } from './in-detail/in-detail.component';
@@ -22,6 +21,7 @@ import { CategoryDetailComponent } from './category-detail/category-detail.compo
 import {BaseChartDirective} from "ng2-charts";
 import { delay } from 'rxjs';
 import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   imports: [
@@ -46,7 +46,6 @@ import { DatePipe } from '@angular/common';
     BoekjeDetailComponent,
     BoekjesComponentArchived,
     MessagesComponent,
-    InUitComponent,
     InComponent,
     InDetailComponent,
     CategoriesComponent,

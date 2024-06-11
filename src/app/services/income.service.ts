@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable, of, Subscriber} from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { from } from 'rxjs';
 import { Income } from '../models/income';
 import { MessageService } from './message.service';
 import { initializeApp } from "firebase/app";
@@ -77,27 +78,27 @@ export class IncomeService {
   }
 
   /** PUT: update the income on the server */
-  updateIncome(income: Income) {
+  updateIncome(income: Income): Observable<Income> {
     const { id, ...object } = Object.assign({}, income);
-    updateDoc(doc(this.firestore, "transactions", income.id), object);
+    return from(updateDoc(doc(this.firestore, "transactions", income.id), object).then(() => income));
   }
 
   /** POST: add a new income to the server */
-  addIncome(income: Income) {
+  addIncome(income: Income): Observable<Income> {
     income.date = new Date();
-    addDoc(collection(this.firestore, 'transactions'), {
+    return from(addDoc(collection(this.firestore, 'transactions'), {
       date: income.date,
       cash: income.cash,
       description: income.description,
       name: income.name,
       category: income.category,
       boekjeId: income.boekjeId
-    })
+    }).then(() => income));
   }
 
   /** DELETE: delete the income from the server */
-  deleteIncome(incomeId: string){
-    deleteDoc(doc(this.firestore, 'transactions', incomeId))
+  deleteIncome(incomeId: string): Observable<string> {
+    return from(deleteDoc(doc(this.firestore, 'transactions', incomeId)).then(() => incomeId));
   }
 
   /** DELETE: delete all incomes from the server */
