@@ -1,8 +1,9 @@
 import { Category } from "./category";
 
 export interface Boekje {
-    id: number;
+    id: string;
     name: string;
     description: string;
     archived: boolean;
+    userIds: string[];
 }

@@ -25,7 +25,9 @@ export class BoekjesComponent {
   boekjes: Boekje[] = [];
 
   getBoekjes(): void {
-    this.boekjeService.getBoekjes().subscribe(boekjes => this.boekjes = boekjes);
+    this.boekjeService.getBoekjes().subscribe(boekjes => {
+      this.boekjes = boekjes
+    })
   }
 
   add(name: string, description: string): void {
@@ -33,8 +35,5 @@ export class BoekjesComponent {
     description = description.trim();
     if (!name || !description) { return; }
     this.boekjeService.addBoekje({ name, description } as Boekje)
-      .subscribe(boekje => {
-        this.boekjes.push(boekje);
-      });
   }
 }
