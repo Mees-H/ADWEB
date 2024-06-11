@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BoekjesComponentArchived } from './boekjes-archived.component';
+import { RouterModule } from '@angular/router';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('BoekjesComponent', () => {
   let component: BoekjesComponentArchived;
@@ -8,7 +10,8 @@ describe('BoekjesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BoekjesComponentArchived]
+      declarations: [BoekjesComponentArchived],
+      imports: [RouterModule.forRoot([]), HttpClientTestingModule]
     })
     .compileComponents();
     

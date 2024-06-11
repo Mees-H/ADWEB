@@ -14,7 +14,7 @@ import { BoekjeService } from '../services/boekje.service';
   selector: 'app-categories',
   providers: [provideCharts(withDefaultRegisterables())],
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.css'
+  styleUrl: './categories.component.css',
 })
 export class CategoriesComponent implements AfterViewInit {
   constructor(private categoryService: CategoryService, private incomeService: IncomeService, private messageService: MessageService, private boekjeService: BoekjeService) { }

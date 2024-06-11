@@ -4,6 +4,7 @@ import { CategoriesComponent } from './categories.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CategoriesComponent', () => {
   let component: CategoriesComponent;
@@ -12,7 +13,8 @@ describe('CategoriesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CategoriesComponent],
-      imports: [RouterModule.forRoot([]), HttpClientTestingModule, FormsModule]
+      imports: [RouterModule.forRoot([]), HttpClientTestingModule, FormsModule],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
     

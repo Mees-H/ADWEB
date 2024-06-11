@@ -22,6 +22,7 @@ import {BaseChartDirective} from "ng2-charts";
 import { delay } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
+
 @NgModule({
   imports: [
     BrowserModule,
