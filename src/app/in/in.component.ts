@@ -22,8 +22,8 @@ export class InComponent {
     this.boekjeId = String(this.route.snapshot.paramMap.get('id'));
     this.getPositiveIncomes(this.boekjeId);
     this.getNegativeIncomes(this.boekjeId);
-    // this.getTotalPositiveIncome(this.boekjeId);
-    // this.getTotalNegativeIncome(this.boekjeId);
+    this.getTotalPositiveIncome(this.boekjeId);
+    this.getTotalNegativeIncome(this.boekjeId);
     this.getCategories();
   }
 
@@ -94,13 +94,13 @@ export class InComponent {
     });
   }
 
-  // getTotalPositiveIncome(boekjeId: string): void {
-  //   this.incomeService.getIncomes(boekjeId).subscribe(positiveIncomes => this.totalPositiveIncome = positiveIncomes.filter(income => income.cash > 0).reduce((acc, income) => acc + income.cash, 0));
-  // }
+  getTotalPositiveIncome(boekjeId: string): void {
+    this.incomeService.getIncomes(boekjeId).subscribe(positiveIncomes => this.totalPositiveIncome = positiveIncomes.filter(income => income.cash > 0).reduce((acc, income) => acc + income.cash, 0));
+  }
 
-  // getTotalNegativeIncome(boekjeId: string): void {
-  //   this.incomeService.getIncomes(boekjeId).subscribe(negativeIncomes => this.totalNegativeIncome = negativeIncomes.filter(income => income.cash < 0).reduce((acc, income) => acc + income.cash, 0));
-  // }
+  getTotalNegativeIncome(boekjeId: string): void {
+    this.incomeService.getIncomes(boekjeId).subscribe(negativeIncomes => this.totalNegativeIncome = negativeIncomes.filter(income => income.cash < 0).reduce((acc, income) => acc + income.cash, 0));
+  }
 
   add(name: string, cash: string, description: string, category: string): void {
     name = name.trim();
@@ -111,8 +111,8 @@ export class InComponent {
     const boekjeId = this.boekjeId;
     if (!cash || !name || !description || !category || !boekjeId) { return; }
     this.incomeService.addIncome({ cash: cashNumber, name, date, description, category, boekjeId } as Income)
-    // this.getTotalPositiveIncome(this.boekjeId);
-    // this.getTotalNegativeIncome(this.boekjeId);
+    this.getTotalPositiveIncome(this.boekjeId);
+    this.getTotalNegativeIncome(this.boekjeId);
     this.getCategories();
   }
 }

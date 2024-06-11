@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterModule } from '@angular/router';
 import { InUitComponent } from './in-uit.component';
 
 describe('InUitComponent', () => {
@@ -8,7 +9,8 @@ describe('InUitComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InUitComponent]
+      declarations: [InUitComponent],
+      imports: [RouterModule.forRoot([]), HttpClientTestingModule]
     })
     .compileComponents();
     
