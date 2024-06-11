@@ -7,6 +7,7 @@ import { catchError, tap, } from 'rxjs/operators';
 import {addDoc, collection, deleteDoc, doc, Firestore, getFirestore, onSnapshot, updateDoc} from "firebase/firestore";
 import {initializeApp} from "firebase/app";
 import appsettings from "../../appsettings";
+import { from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +49,7 @@ export class CategoryService {
   }
 
   /** GET category by id. Will 404 if id not found */
-  getCategory(id: string): Observable<Category> | undefined {
+  getCategory(id: string): Observable<Category | undefined> {
     return new Observable((subscriber: Subscriber<any>) => {
       if (id == "") {
         subscriber.next(null);
@@ -72,28 +73,28 @@ export class CategoryService {
   }
 
   /** POST add categories */
-  addCategory(category: Category) {
-    addDoc(collection(this.firestore, 'categories'), {
+  addCategory(category: Category): Observable<Category> {
+    return from(addDoc(collection(this.firestore, 'categories'), {
       description: category.description,
       name: category.name,
       max_budget: category.max_budget,
       end_date: category.end_date,
       incomes: []
-    })
+    }).then(() => category));
   }
 
   /** PUT: update the category on the server */
-  updateCategory(category: Category) {
+  updateCategory(category: Category): Observable<Category> {
     const { id, ...object } = Object.assign({}, category);
     if (object.end_date === undefined) {
       object.end_date = null;
     }
-    updateDoc(doc(this.firestore, "categories", category.id), object);
+    return from(updateDoc(doc(this.firestore, "categories", category.id), object).then(() => category));
   }
 
   /** DELETE: delete the category from the server */
-  deleteCategory(id: string) {
-    deleteDoc(doc(this.firestore, 'categories', id))
+  deleteCategory(id: string): Observable<string> {
+    return from(deleteDoc(doc(this.firestore, 'categories', id)).then(() => id));
   }
 
   /** GET all incomes cash matching category */
