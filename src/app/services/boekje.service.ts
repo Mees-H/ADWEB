@@ -9,6 +9,7 @@ import {initializeApp} from "firebase/app";
 import appsettings from "../../appsettings";
 import {Category} from "../models/category";
 import {AuthService} from "./auth.service";
+import {and, query, where} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -16,20 +17,12 @@ import {AuthService} from "./auth.service";
 export class BoekjeService {
   firestore: Firestore
   authService = inject(AuthService);
+  booksCollection;
 
-  constructor(private messageService: MessageService, private http: HttpClient) {
+  constructor() {
     const app = initializeApp(appsettings.firebaseConfig)
     this.firestore = getFirestore(app);
-  }
-
-  boekjesUrl = 'api/boekjes';  // URL to web api
-
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
-  private log(message: string) {
-    this.messageService.add(`BoekjeService: ${message}`);
+    this.booksCollection = collection(this.firestore, 'books');
   }
 
   /** GET boekje by id. Will 404 if id not found */
@@ -61,10 +54,19 @@ export class BoekjeService {
   /** GET boekjes from the server that are not archived*/
   getBoekjes(): Observable<Boekje[]> {
     return new Observable((subscriber: Subscriber<any[]>) => {
-      onSnapshot(collection(this.firestore, 'books'), (snapshot) => {
+      if(this.authService.currentUserSignal() == null) {
+        subscriber.next([]);
+        return;
+      }
+
+      const selection = query(collection(this.firestore, 'books'), and(
+        where('userIds', 'array-contains', this.authService.currentUserSignal()!.id),
+        where('archived', '==', false))
+      );
+
+      onSnapshot(selection, (snapshot) => {
         let boekjes: Boekje[] = []
         snapshot.forEach(x => {
-          if (!x.data()['archived']) {
             boekjes.push({
               id: x.id,
               name: x.data()['name'],
@@ -72,7 +74,6 @@ export class BoekjeService {
               archived: x.data()['archived'],
               userIds: x.data()['userIds']
             });
-          }
         })
         subscriber.next(boekjes);
       })
@@ -82,20 +83,27 @@ export class BoekjeService {
   /** GET boekjes from the server that are archived*/
   getBoekjesArchived(): Observable<Boekje[]> {
     return new Observable((subscriber: Subscriber<any[]>) => {
-      onSnapshot(collection(this.firestore, 'books'), (snapshot) => {
+      if(this.authService.currentUserSignal() == null) {
+        subscriber.next([]);
+        return;
+      }
+
+      const selection = query(collection(this.firestore, 'books'), and(
+        where('userIds', 'array-contains', this.authService.currentUserSignal()!.id),
+        where('archived', '==', true))
+      );
+
+      onSnapshot(selection, (snapshot) => {
         let boekjes: Boekje[] = []
         snapshot.forEach(x => {
-          if (x.data()['archived']) {
-            boekjes.push({
-              id: x.id,
-              name: x.data()['name'],
-              description: x.data()['description'],
-              archived: x.data()['archived'],
-              userIds: x.data()['userIds']
-            });
-          }
+          boekjes.push({
+            id: x.id,
+            name: x.data()['name'],
+            description: x.data()['description'],
+            archived: x.data()['archived'],
+            userIds: x.data()['userIds']
+          });
         })
-
         subscriber.next(boekjes);
       })
     })
@@ -132,10 +140,14 @@ export class BoekjeService {
       return of([]);
     }
     return new Observable((subscriber: Subscriber<any[]>) => {
-      onSnapshot(collection(this.firestore, 'books'), (snapshot) => {
+      const selection = query(collection(this.firestore, 'books'), and(
+        where('userIds', 'array-contains', this.authService.currentUserSignal()!.id),
+        where('name', '==', term))
+      );
+
+      onSnapshot(selection, (snapshot) => {
         let boekjes: Boekje[] = []
         snapshot.forEach(x => {
-          if (x.data()['name'] === term) {
             boekjes.push({
               id: x.id,
               name: x.data()['name'],
@@ -143,7 +155,6 @@ export class BoekjeService {
               archived: x.data()['archived'],
               userIds: x.data()['userIds']
             });
-          }
         })
 
         subscriber.next(boekjes);
@@ -165,7 +176,6 @@ export class BoekjeService {
       console.error(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
 
       // Let the app keep running by returning an empty result.
       return of(result as T);
