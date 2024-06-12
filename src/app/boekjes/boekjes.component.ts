@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Boekje } from '../models/boekje';
 import { NgFor, NgIf, UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,10 +15,15 @@ import {Observable, Subscription} from "rxjs";
 })
 
 
-export class BoekjesComponent {
+export class BoekjesComponent implements OnDestroy {
   public errorMessages: string[] = [];
+  public observableBoekjes: Subscription | null = null;
 
   constructor(private boekjeService: BoekjeService, private messageService: MessageService) { }
+
+  ngOnDestroy(): void {
+    this.observableBoekjes?.unsubscribe();
+  }
 
   ngOnInit() {
     this.getBoekjes();
@@ -27,9 +32,12 @@ export class BoekjesComponent {
   boekjes: Boekje[] | null = null;
 
   getBoekjes(): void {
-    this.boekjeService.getBoekjes().subscribe({
+    this.observableBoekjes = this.boekjeService.getBoekjes().subscribe({
       next: boekjes => this.boekjes = boekjes,
-      error: error => this.errorMessages.push(error)
+      error: error => {
+        this.errorMessages.push(error)
+        this.observableBoekjes?.unsubscribe();
+      }
     })
   }
 

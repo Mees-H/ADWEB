@@ -1,15 +1,16 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnDestroy} from '@angular/core';
 import { IncomeService } from '../services/income.service';
 import { Income } from '../models/income';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-in-detail',
   templateUrl: './in-detail.component.html',
   styleUrl: './in-detail.component.css'
 })
-export class InDetailComponent {
+export class InDetailComponent implements OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
@@ -17,7 +18,12 @@ export class InDetailComponent {
     private location: Location
   ) { }
 
+  ngOnDestroy(): void {
+    this.observableIncome?.unsubscribe();
+  }
+
   errorMessages: string[] = [];
+  observableIncome: Subscription | null = null;
 
   @Input() inkomst? : Income;
 
@@ -30,13 +36,16 @@ export class InDetailComponent {
 
     let observable = this.incomeService.getIncome(id)
     if (observable) {
-      observable.subscribe({
+      this.observableIncome = observable.subscribe({
         next: transaction => {
           if (transaction) {
             this.inkomst = transaction
           }
         },
-        error: error => this.errorMessages.push(error)
+        error: error => {
+          this.observableIncome?.unsubscribe();
+          this.errorMessages.push(error)
+        }
       });
     }
   }
