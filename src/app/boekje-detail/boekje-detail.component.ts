@@ -19,6 +19,7 @@ export class BoekjeDetailComponent {
   ) {}
 
   @Input() boekje?: Boekje;
+  newUserMail: string = "";
 
   ngOnInit(): void {
     this.getBoekje();
@@ -45,6 +46,19 @@ export class BoekjeDetailComponent {
   save(): void {
     if (this.boekje) {
       this.boekjeService.updateBoekje(this.boekje)
+    }
+  }
+
+  removeUser(userMail: string) {
+    if(this.boekje) {
+      this.boekje.userIds = this.boekje.userIds.filter(id => id !== userMail);
+    }
+  }
+
+  addUser() {
+    if(this.boekje) {
+      this.boekje.userIds.push(this.newUserMail);
+      this.newUserMail = "";
     }
   }
 }
