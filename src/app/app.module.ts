@@ -22,7 +22,7 @@ import {BaseChartDirective} from "ng2-charts";
 import { delay } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
+import { Auth, getAuth, provideAuth } from '@angular/fire/auth';
 
 
 @NgModule({
@@ -32,6 +32,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
     AppRoutingModule,
     HttpClientModule,
     DashboardComponent,
+    
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
