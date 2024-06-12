@@ -152,7 +152,7 @@ export class BoekjeService {
         subscriber.error("You need to be logged in to view this.");
       } else {
         const selection = query(collection(this.firestore, 'books'), and(
-          where('userIds', 'array-contains', this.authService.currentUserSignal()!.id),
+          where('userIds', 'array-contains', this.authService.currentUserSignal()!.email),
           where('name', '==', term))
         );
         onSnapshot(selection, {
@@ -169,7 +169,10 @@ export class BoekjeService {
             })
             subscriber.next(boekjes);
           },
-          error: (error) => subscriber.error(error.message)
+          error: (error) => {
+            console.log(error)
+            subscriber.error(error.message)
+          }
         })
       }
     })
