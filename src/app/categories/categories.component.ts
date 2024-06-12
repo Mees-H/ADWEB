@@ -35,16 +35,16 @@ export class CategoriesComponent implements AfterViewInit {
 
   errorMessages: string[] = [];
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.getBoekjes();
   }
 
-  ngAfterViewInit(): void {
-    this.getCategories();
-  }
-
   getBoekjes(): void {
-    this.boekjeService.getBoekjes().subscribe(boekjes => this.boekjes = boekjes);
+    this.boekjeService.getBoekjes().subscribe(boekjes => {
+      this.boekjes = boekjes
+      this.selectedBoekje = this.boekjes != null ? this.boekjes[0].id : ""
+      this.getCategories();
+    });
   }
 
   getBarColors(budgets: number[], maxBudgets: number[]): string[] {
@@ -71,7 +71,7 @@ export class CategoriesComponent implements AfterViewInit {
     this.budgetBarChartData = {datasets:[
       {data: totalBudgets, label: 'Budget over per categorie', backgroundColor: this.getBarColors(totalBudgets, this.categories.map(c => c.max_budget))}
     ], labels: this.categories.map(c => c.name)};
-      
+
   }
 
   getTotalBudgets(totals: number[]): number[] {
