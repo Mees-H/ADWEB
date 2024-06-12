@@ -3,9 +3,9 @@
   <li *ngFor="let boekje of boekjes">
     <div class="horizontal">
       <a routerLink="/boekjes/{{boekje.id}}/in-uit">
-        <span class="badge">{{boekje.id}}</span> {{boekje.name}}
+        <span class="badge">{{boekje.name}}</span> {{boekje.description}}
       </a>
-      <a routerLink="/boekjes/{{boekje.id}}"><span class="badge">{{boekje.id}}</span>Aanpassen</a>
+      <a routerLink="/boekjes/{{boekje.id}}"><span class="badge">{{boekje.name}}</span>Aanpassen</a>
     </div>
   </li>
 </ul>

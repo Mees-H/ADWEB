@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import { Boekje } from '../models/boekje';
-import {Observable, of, Subscriber} from 'rxjs';
+import {Observable, of, Subscriber, from} from 'rxjs';
 import { MessageService } from './message.service';
 import {addDoc, collection, deleteDoc, doc, Firestore, getFirestore, onSnapshot, updateDoc} from "firebase/firestore";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -110,27 +110,27 @@ export class BoekjeService {
   }
 
   /** PUT: update the boekje on the server */
-  updateBoekje(boekje: Boekje) {
+  updateBoekje(boekje: Boekje): Observable<Boekje> {
     const { id, ...object } = Object.assign({}, boekje);
-    updateDoc(doc(this.firestore, "books", boekje.id), object);
+    return from(updateDoc(doc(this.firestore, "books", boekje.id), object).then(() => boekje));
   }
 
   /** POST: add a new boekje to the server */
-  addBoekje(boekje: Boekje) {
+  addBoekje(boekje: Boekje): Observable<Boekje> {
     const user = this.authService.currentUserSignal();
     const users = user != null ? [user.email] : [];
     console.log(users)
-    addDoc(collection(this.firestore, 'books'), {
+    return from(addDoc(collection(this.firestore, 'books'), {
       name: boekje.name,
       description: boekje.description,
       archived: false,
       userIds: users
-    })
+    }).then(() => boekje));
   }
 
   /** DELETE: delete the boekje from the server */
-  deleteBoekje(id: string) {
-    deleteDoc(doc(this.firestore, 'books', id))
+  deleteBoekje(id: string): Observable<string> {
+    return from(deleteDoc(doc(this.firestore, 'books', id)).then(() => id));
   }
 
   /* GET boekjees whose name contains search term */

@@ -5,6 +5,13 @@
     <li><a routerLink="/boekjes">Boekjes</a></li>
     <li><a routerLink="/boekjes-archived">Archief</a></li>
     <li><a routerLink="/categories">Categorieën</a></li>
+    <ng-container *ngIf="loggedIn">
+      <li><a (click)="logout()">Logout</a></li>
+    </ng-container>
+    <ng-container *ngIf="!loggedIn">
+      <li><a routerLink="/login">Login</a></li>
+      <li><a routerLink="/register">Register</a></li>
+    </ng-container>
   </ul>
 </nav>
 <div class="marginleft">

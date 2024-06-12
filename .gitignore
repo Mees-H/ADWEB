@@ -41,9 +41,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-#config files
-appsettings.ts
-
 .angular
 # Firebase
 .firebase
