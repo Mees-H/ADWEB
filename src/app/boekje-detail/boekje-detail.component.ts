@@ -1,25 +1,32 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnDestroy} from '@angular/core';
 import {NgIf, UpperCasePipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Boekje} from '../models/boekje';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { BoekjeService } from '../services/boekje.service';
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-boekje-detail',
   templateUrl: './boekje-detail.component.html',
   styleUrls: ['./boekje-detail.component.css'],
 })
-export class BoekjeDetailComponent {
+export class BoekjeDetailComponent implements OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private boekjeService: BoekjeService,
     private location: Location
   ) {}
 
+  ngOnDestroy(): void {
+    this.observableBoekje?.unsubscribe();
+  }
+
   @Input() boekje?: Boekje;
   newUserMail: string = "";
+  errorMessages: string[] = [];
+  observableBoekje: Subscription | null = null;
 
   ngOnInit(): void {
     this.getBoekje();
@@ -27,14 +34,18 @@ export class BoekjeDetailComponent {
 
   getBoekje(): void {
     const id = this.route.snapshot.paramMap.get('id') ?? "";
-
     let observableBoekje = this.boekjeService.getBoekje(id);
-    if(observableBoekje) {
-      observableBoekje.subscribe(boekje => {
-        if(boekje){
-          this.boekje = boekje
+    if (observableBoekje) {
+      this.observableBoekje = observableBoekje.subscribe({
+        next: boekje => {
+          if (boekje) {
+            this.boekje = boekje
+          }
+        },
+        error: error => {
+          this.errorMessages.push(error);
+          this.observableBoekje?.unsubscribe();
         }
-
       });
     }
   }

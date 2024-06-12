@@ -10,16 +10,18 @@ import { Boekje } from '../models/boekje';
 import { BoekjeService } from '../services/boekje.service';
 import { RouterModule } from '@angular/router';
 import { AsyncPipe, NgFor } from '@angular/common';
+import {ErrorComponent} from "../error/error.component";
 
 @Component({
   selector: 'app-boekje-search',
   standalone: true,
-  imports: [ RouterModule, NgFor, AsyncPipe],
+  imports: [RouterModule, NgFor, AsyncPipe, ErrorComponent],
   templateUrl: './boekje-search.component.html',
   styleUrls: [ './boekje-search.component.css' ]
 })
 export class BoekjeSearchComponent implements OnInit {
   boekjes$!: Observable<Boekje[]>;
+  errorMessages: string[] = [];
   private searchTerms = new Subject<string>();
 
   constructor(private boekjeService: BoekjeService) {}

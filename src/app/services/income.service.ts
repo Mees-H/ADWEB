@@ -35,19 +35,22 @@ export class IncomeService {
       if (id == "") {
         subscriber.next(null);
       } else {
-        onSnapshot(doc(this.firestore, "transactions", id), (doc) => {
-          let data = doc.data()
-          if (data) {
-            subscriber.next({
-              id: doc.id,
-              date: data['date'].toDate(),
-              cash: data['cash'],
-              description: data['description'],
-              name: data['name'],
-              category: data['category'],
-            });
-          }
-          subscriber.next(null);
+        onSnapshot(doc(this.firestore, "transactions", id), {
+          next: (doc) => {
+            let data = doc.data()
+            if (data) {
+              subscriber.next({
+                id: doc.id,
+                date: data['date'].toDate(),
+                cash: data['cash'],
+                description: data['description'],
+                name: data['name'],
+                category: data['category'],
+              });
+            }
+            subscriber.next(null);
+          },
+          error: (error) => subscriber.error(error.message)
         });
       }
     })
@@ -56,23 +59,26 @@ export class IncomeService {
   /** GET income from the server */
   getIncomes(boekjeId: string): Observable<Income[]> {
     return new Observable((subscriber: Subscriber<any[]>) => {
-      onSnapshot(collection(this.firestore, 'transactions'), (snapshot) => {
-        let incomes: Income[] = []
-        snapshot.forEach(x => {
-          let income = {
-            id: x.id,
-            date: x.data()['date'].toDate(),
-            cash: x.data()['cash'],
-            description: x.data()['description'],
-            name: x.data()['name'],
-            category: x.data()['category'],
-            boekjeId: x.data()['boekjeId']
-          };
-          if (income.boekjeId === boekjeId) {
-            incomes.push(income);
-          }
-        })
-        subscriber.next(incomes);
+      onSnapshot(collection(this.firestore, 'transactions'), {
+        next: (snapshot) => {
+          let incomes: Income[] = []
+          snapshot.forEach(x => {
+            let income = {
+              id: x.id,
+              date: x.data()['date'].toDate(),
+              cash: x.data()['cash'],
+              description: x.data()['description'],
+              name: x.data()['name'],
+              category: x.data()['category'],
+              boekjeId: x.data()['boekjeId']
+            };
+            if (income.boekjeId === boekjeId) {
+              incomes.push(income);
+            }
+          })
+          subscriber.next(incomes);
+        },
+        error: (error) => subscriber.error(error.message)
       })
     })
   }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import { IncomeService } from '../services/income.service';
 import { Income } from '../models/income';
 import { CategoryService } from '../services/category.service';
@@ -6,17 +6,24 @@ import { Category } from '../models/category';
 import { Boekje } from '../models/boekje';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-in',
   templateUrl: './in.component.html',
   styleUrl: './in.component.css',
 })
-export class InComponent {
+export class InComponent implements OnDestroy{
 
   boekjeId = "0";
 
   constructor(private incomeService: IncomeService, private categoryService: CategoryService, private route: ActivatedRoute) { }
+
+  ngOnDestroy(): void {
+    this.observableCategories?.unsubscribe();
+    this.observablePositiveIncomes?.unsubscribe();
+    this.observableNegativeIncomes?.unsubscribe();
+  }
 
   ngOnInit() {
     this.boekjeId = String(this.route.snapshot.paramMap.get('id'));
@@ -34,7 +41,11 @@ export class InComponent {
   months: string[] = [];
   selectedMonth: string = '';
   datePipe = new DatePipe('en-US');
-  
+  errorMessages: string[] = [];
+  observablePositiveIncomes: Subscription | null = null;
+  observableNegativeIncomes: Subscription | null = null;
+  observableCategories: Subscription | null = null;
+
 
   getUniqueMonths() {
     const allMonths = this.positiveIncomes.concat(this.negativeIncomes)
@@ -49,7 +60,7 @@ export class InComponent {
     // Start with the original incomes
     this.positiveIncomes = [...this.originalPositiveIncomes];
     this.negativeIncomes = [...this.originalNegativeIncomes];
-  
+
     // Filter incomes by selected month
     const selectedMonth = this.selectedMonth;
     this.positiveIncomes = this.positiveIncomes.filter(income => {
@@ -71,22 +82,40 @@ export class InComponent {
   }
 
   getCategories(): void {
-    this.categoryService.getCategories().subscribe(categories => this.categories = categories);
+    this.observableCategories = this.categoryService.getCategories().subscribe({
+      next: categories => this.categories = categories,
+      error: err => {
+        this.observableCategories?.unsubscribe();
+        this.errorMessages.push(err)
+      }
+  });
   }
 
   getPositiveIncomes(boekjeId: string): void {
-    this.incomeService.getIncomes(boekjeId).subscribe(positiveIncomes => {
-      this.positiveIncomes = positiveIncomes.filter(income => income.cash > 0);
-      this.originalPositiveIncomes = [...this.positiveIncomes]; 
-      this.months = this.getUniqueMonths();
+    this.observablePositiveIncomes = this.incomeService.getIncomes(boekjeId).subscribe({
+      next: positiveIncomes => {
+          this.positiveIncomes = positiveIncomes.filter(income => income.cash > 0);
+          this.originalPositiveIncomes = [...this.positiveIncomes];
+          this.months = this.getUniqueMonths();
+        },
+      error: err => {
+        this.observablePositiveIncomes?.unsubscribe();
+        this.errorMessages.push(err)
+      }
     });
   }
-  
+
   getNegativeIncomes(boekjeId: string): void {
-    this.incomeService.getIncomes(boekjeId).subscribe(negativeIncomes => {
-      this.negativeIncomes = negativeIncomes.filter(income => income.cash < 0);
-      this.originalNegativeIncomes = [...this.negativeIncomes]; 
-      this.months = this.getUniqueMonths();
+    this.observableNegativeIncomes = this.incomeService.getIncomes(boekjeId).subscribe({
+      next: negativeIncomes => {
+        this.negativeIncomes = negativeIncomes.filter(income => income.cash < 0);
+        this.originalNegativeIncomes = [...this.negativeIncomes];
+        this.months = this.getUniqueMonths();
+      },
+      error: err => {
+        this.observableNegativeIncomes?.unsubscribe();
+        this.errorMessages.push(err)
+      }
     });
   }
 

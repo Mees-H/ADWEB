@@ -8,5 +8,6 @@ import { NgFor, NgIf } from '@angular/common';
   styleUrl: './messages.component.css'
 })
 export class MessagesComponent {
+  errorMessages: string[] = [];
   constructor(public messageService: MessageService) {}
 }

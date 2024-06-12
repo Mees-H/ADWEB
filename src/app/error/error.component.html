@@ -1,0 +1,5 @@
+<div *ngIf="errorMessages.length" style="background-color: pink;border: red 5px solid">
+  <ul>
+    <li style="color: darkred" *ngFor="let message of errorMessages | uniq">{{ message }}</li>
+  </ul>
+</div>

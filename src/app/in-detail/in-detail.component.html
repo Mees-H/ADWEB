@@ -1,4 +1,5 @@
-  <div *ngIf="inkomst; else loading">
+<app-error [errorMessages]="errorMessages"/>
+<div *ngIf="inkomst; else loading">
     <h2>{{inkomst.name | uppercase}} Details</h2>
     <div><span>id: </span>{{inkomst.id}}</div>
     <div class="vertical">

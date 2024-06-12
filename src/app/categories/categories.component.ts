@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy} from '@angular/core';
 import { CategoryService } from '../services/category.service';
 import { MessageService } from '../services/message.service';
 import { Category } from '../models/category';
@@ -6,7 +6,7 @@ import {provideCharts, withDefaultRegisterables} from 'ng2-charts';
 import {ChartData} from "chart.js";
 import {Income} from "../models/income";
 import {IncomeService} from "../services/income.service";
-import { max } from 'rxjs';
+import {max, Subscription} from 'rxjs';
 import { Boekje } from '../models/boekje';
 import { BoekjeService } from '../services/boekje.service';
 
@@ -16,13 +16,24 @@ import { BoekjeService } from '../services/boekje.service';
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css',
 })
-export class CategoriesComponent implements AfterViewInit {
+export class CategoriesComponent implements AfterViewInit, OnDestroy {
   constructor(private categoryService: CategoryService, private incomeService: IncomeService, private messageService: MessageService, private boekjeService: BoekjeService) { }
+
+  ngOnDestroy(): void {
+    this.observableIncomes?.unsubscribe();
+    this.observableCategories?.unsubscribe();
+    this.observableBoekjes?.unsubscribe();
+  }
 
   categories: Category[] = [];
   incomes: Income[] = [];
   boekjes: Boekje[] = [];
   selectedBoekje: string = "1";
+  validationMessages: string[] = [];
+  errorMessages: string[] = [];
+  observableCategories: Subscription | null = null;
+  observableIncomes: Subscription | null = null;
+  observableBoekjes: Subscription | null = null;
 
   public barChartData : ChartData = {datasets:[], labels: []};
   public budgetBarChartData : ChartData = {datasets:[], labels: []};
@@ -33,18 +44,21 @@ export class CategoriesComponent implements AfterViewInit {
   max_budget = '';
   end_date = '';
 
-  errorMessages: string[] = [];
-
   ngAfterViewInit(): void {
     this.getBoekjes();
   }
 
   getBoekjes(): void {
-    this.boekjeService.getBoekjes().subscribe(boekjes => {
+    this.observableBoekjes = this.boekjeService.getBoekjes().subscribe({next: boekjes => {
       this.boekjes = boekjes
       this.selectedBoekje = this.boekjes != null ? this.boekjes[0].id : ""
       this.getCategories();
-    });
+    },
+    error: error => {
+      this.errorMessages.push(error)
+      this.observableBoekjes?.unsubscribe()
+    }
+  });
   }
 
   getBarColors(budgets: number[], maxBudgets: number[]): string[] {
@@ -149,16 +163,26 @@ export class CategoriesComponent implements AfterViewInit {
   }
 
   getCategories(): void {
-    this.categoryService.getCategories().subscribe(categories => {
+    this.observableCategories = this.categoryService.getCategories().subscribe({next: categories => {
       this.categories = categories
       this.updateTotalsChart()
       this.updateTotalsPerMonthChart()
-    })
-    this.incomeService.getIncomes(this.selectedBoekje).subscribe(incomes => {
+    },
+    error: error => {
+      this.errorMessages.push(error)
+      this.observableCategories?.unsubscribe()
+    }
+  })
+    this.observableIncomes = this.incomeService.getIncomes(this.selectedBoekje).subscribe({next: incomes => {
       this.incomes = incomes
       this.updateTotalsChart()
       this.updateTotalsPerMonthChart()
-    })
+    },
+    error: error => {
+      this.errorMessages.push(error)
+      this.observableIncomes?.unsubscribe()
+    }
+    });
   }
 
   add(name: string, description: string, max_budget: string, end_date: string | null): void {
@@ -166,12 +190,12 @@ export class CategoriesComponent implements AfterViewInit {
     description = description.trim();
     const max_budgetNumber = Number(max_budget);
     const end_dateDate = end_date ? new Date(end_date).toISOString().split('T')[0]: null;
-    this.errorMessages = [];
-    if (!name) { this.errorMessages.push('Naam is verplicht.'); }
-    if (!description) { this.errorMessages.push('Categorie is verplicht.'); }
-    if (!max_budget) { this.errorMessages.push('Maximale budget is verplicht.'); }
-    if (max_budgetNumber <= 0) { this.errorMessages.push('Maximale budget moet groter zijn dan 0.'); }
-    if (this.errorMessages.length > 0) { return; }
+    this.validationMessages = [];
+    if (!name) { this.validationMessages.push('Naam is verplicht.'); }
+    if (!description) { this.validationMessages.push('Categorie is verplicht.'); }
+    if (!max_budget) { this.validationMessages.push('Maximale budget is verplicht.'); }
+    if (max_budgetNumber <= 0) { this.validationMessages.push('Maximale budget moet groter zijn dan 0.'); }
+    if (this.validationMessages.length > 0) { return; }
     this.categoryService.addCategory({ name, description, max_budget: max_budgetNumber, end_date: end_dateDate } as Category)
 
     // Clear the form

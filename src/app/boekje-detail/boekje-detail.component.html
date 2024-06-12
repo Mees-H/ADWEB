@@ -1,3 +1,4 @@
+<app-error [errorMessages]="errorMessages"/>
 <div *ngIf="boekje; else loading">
     <h2>{{boekje.name | uppercase}} Details</h2>
     <div><span>id: </span>{{boekje.id}}</div>

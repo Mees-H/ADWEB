@@ -1,3 +1,4 @@
+<app-error [errorMessages]="errorMessages"/>
 <div *ngIf="category; else loading">
     <h2>{{category.name | uppercase}} Details</h2>
     <div><span>id: </span>{{category.id}}</div>
@@ -11,7 +12,7 @@
       <label for="category-end_date">Categorie Einddatum:</label>
       <input type="date" id="category-end_date" [(ngModel)]="category.end_date" placeholder="end_date">
     </div>
-    <ng-container *ngFor="let errorMessage of errorMessages">
+    <ng-container *ngFor="let errorMessage of validationMessages">
       <div *ngIf="errorMessage" class="alert">{{ errorMessage }}</div>
     </ng-container>
     <button type="button" (click)="goBack()">terug</button>
