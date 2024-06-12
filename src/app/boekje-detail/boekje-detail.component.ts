@@ -34,9 +34,8 @@ export class BoekjeDetailComponent implements OnDestroy {
 
   getBoekje(): void {
     const id = this.route.snapshot.paramMap.get('id') ?? "";
-
     let observableBoekje = this.boekjeService.getBoekje(id);
-    if (this.observableBoekje) {
+    if (observableBoekje) {
       this.observableBoekje = observableBoekje.subscribe({
         next: boekje => {
           if (boekje) {
