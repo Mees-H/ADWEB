@@ -2,7 +2,7 @@
   <p>Alle gearchiveerde boekjes:</p>
   <li *ngFor="let boekje of boekjes">
     <a routerLink="/boekjes/{{boekje.id}}">
-      <span class="badge">{{boekje.id}}</span> {{boekje.name}}
+      <span class="badge">{{boekje.name}}</span> {{boekje.description}}
     </a>
   </li>
 </ul>

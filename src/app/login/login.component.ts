@@ -28,7 +28,4 @@ export class LoginComponent {
   login(password: string, email: string){
     this.authService.login(email, password).subscribe();
   }
-  logout(){
-    this.authService.logout().subscribe();
-  }
 }

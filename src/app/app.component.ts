@@ -9,6 +9,9 @@ import {AuthService} from "./services/auth.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
+
+  loggedIn = false;
+
   ngOnInit(): void {
       this.authService.user$.subscribe(user => {
         if(user){
@@ -16,8 +19,10 @@ export class AppComponent implements OnInit{
             id: user.uid,
             email: user.email!
           })
+          this.loggedIn = true;
         } else{
           this.authService.currentUserSignal.set(null);
+          this.loggedIn = false;
         }
         console.log(this.authService.currentUserSignal())
       });
@@ -26,4 +31,8 @@ export class AppComponent implements OnInit{
   private auth = inject(Auth);
 
   authService = inject(AuthService)
+
+  logout(){
+    this.authService.logout().subscribe();
+  }
 }
