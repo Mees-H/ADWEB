@@ -20,8 +20,8 @@ describe('BoekjeSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BoekjeSearchComponent],
       imports: [
+        BoekjeSearchComponent,
         HttpClientTestingModule,
         AngularFireModule.initializeApp({
           "projectId": "adweb-cc478",
