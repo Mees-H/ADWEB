@@ -60,7 +60,7 @@ export class BoekjeService {
       }
 
       const selection = query(collection(this.firestore, 'books'), and(
-        where('userIds', 'array-contains', this.authService.currentUserSignal()!.id),
+        where('userIds', 'array-contains', this.authService.currentUserSignal()!.email),
         where('archived', '==', false))
       );
 
@@ -89,7 +89,7 @@ export class BoekjeService {
       }
 
       const selection = query(collection(this.firestore, 'books'), and(
-        where('userIds', 'array-contains', this.authService.currentUserSignal()!.id),
+        where('userIds', 'array-contains', this.authService.currentUserSignal()!.email),
         where('archived', '==', true))
       );
 
@@ -118,7 +118,7 @@ export class BoekjeService {
   /** POST: add a new boekje to the server */
   addBoekje(boekje: Boekje): Observable<Boekje> {
     const user = this.authService.currentUserSignal();
-    const users = user != null ? [user.id] : [];
+    const users = user != null ? [user.email] : [];
     console.log(users)
     return from(addDoc(collection(this.firestore, 'books'), {
       name: boekje.name,
