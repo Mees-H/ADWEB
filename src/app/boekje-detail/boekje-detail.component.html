@@ -10,9 +10,25 @@
       <div>
         <input type="checkbox" id="boekje-archived" [(ngModel)]="boekje.archived">
       </div>
+      <div>
+        <label>gebruikers</label>
+        <ul>
+          <li *ngFor="let userMail of boekje.userIds">
+            <span>{{userMail}}</span>
+            <button type="button" (click)="removeUser(userMail)">-</button>
+          </li>
+        </ul>
+      </div>
+        <label for="new-user">voeg gebruiker toe</label>
+      <div>
+        <input id="new-user" type="text" [(ngModel)]="newUserMail" placeholder="email">
+        <button type="button" (click)="addUser()">+</button>
+      </div>
+
+
     </div>
-    <button type="button" (click)="goBack()">terug</button>
-    <button type="button" (click)="save()">opslaan</button>
+    <button class="button" type="button" (click)="goBack()">terug</button>
+    <button class="button" type="button" (click)="save()">opslaan</button>
   </div>
 
   <ng-template #loading>
