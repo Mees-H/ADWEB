@@ -17,6 +17,8 @@ export class InDetailComponent {
     private location: Location
   ) { }
 
+  errorMessages: string[] = [];
+
   @Input() inkomst? : Income;
 
   ngOnInit(): void {
@@ -27,11 +29,14 @@ export class InDetailComponent {
     const id = this.route.snapshot.paramMap.get('id') ?? "";
 
     let observable = this.incomeService.getIncome(id)
-    if(observable){
-      observable.subscribe(transaction => {
-        if(transaction) {
-          this.inkomst = transaction
-        }
+    if (observable) {
+      observable.subscribe({
+        next: transaction => {
+          if (transaction) {
+            this.inkomst = transaction
+          }
+        },
+        error: error => this.errorMessages.push(error)
       });
     }
   }

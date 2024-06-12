@@ -31,19 +31,22 @@ export class CategoryService {
   /** GET categories from the server that are not archived*/
   getCategories(): Observable<Category[]> {
     return new Observable((subscriber: Subscriber<any[]>) => {
-      onSnapshot(collection(this.firestore, 'categories'), (snapshot) => {
-        let categories: Category[] = []
-        snapshot.forEach(x => {
-          categories.push({
-            id: x.id,
-            name: x.data()['name'],
-            description: x.data()['description'],
-            max_budget: x.data()['max_budget'],
-            end_date: x.data()['end_date'],
-            incomes: []
-          });
-        })
-        subscriber.next(categories);
+      onSnapshot(collection(this.firestore, 'categories'), {
+        next: (snapshot) => {
+          let categories: Category[] = []
+          snapshot.forEach(x => {
+            categories.push({
+              id: x.id,
+              name: x.data()['name'],
+              description: x.data()['description'],
+              max_budget: x.data()['max_budget'],
+              end_date: x.data()['end_date'],
+              incomes: []
+            });
+          })
+          subscriber.next(categories);
+        },
+        error: (error) => subscriber.error(error.message)
       })
     })
   }
@@ -54,19 +57,22 @@ export class CategoryService {
       if (id == "") {
         subscriber.next(null);
       } else {
-        onSnapshot(doc(this.firestore, "categories", id), (doc) => {
-          let data = doc.data()
-          if (data) {
-            subscriber.next({
-              id: doc.id,
-              name: data['name'],
-              description: data['description'],
-              max_budget: data['max_budget'],
-              end_date: data['end_date'],
-              incomes: []
-            });
-          }
-          subscriber.next(null);
+        onSnapshot(doc(this.firestore, "categories", id), {
+          next: (doc) => {
+            let data = doc.data()
+            if (data) {
+              subscriber.next({
+                id: doc.id,
+                name: data['name'],
+                description: data['description'],
+                max_budget: data['max_budget'],
+                end_date: data['end_date'],
+                incomes: []
+              });
+            }
+            subscriber.next(null);
+          },
+          error: (error) => subscriber.error(error.message)
         });
       }
     })
@@ -100,14 +106,17 @@ export class CategoryService {
   /** GET all incomes cash matching category */
   getIncomesCash(category: string): Observable<number> {
     return new Observable((subscriber: Subscriber<number>) => {
-      onSnapshot(collection(this.firestore, 'transactions'), (snapshot) => {
-        let totalIncome = 0;
-        snapshot.forEach(x => {
-          if (x.data()['category'] === category) {
-            totalIncome += x.data()['cash'];
-          }
-        })
-        subscriber.next(totalIncome);
+      onSnapshot(collection(this.firestore, 'transactions'), {
+        next: (snapshot) => {
+          let totalIncome = 0;
+          snapshot.forEach(x => {
+            if (x.data()['category'] === category) {
+              totalIncome += x.data()['cash'];
+            }
+          })
+          subscriber.next(totalIncome);
+        },
+        error: (error) => subscriber.error(error.message)
       })
     })
   }

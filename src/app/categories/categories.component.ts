@@ -23,6 +23,8 @@ export class CategoriesComponent implements AfterViewInit {
   incomes: Income[] = [];
   boekjes: Boekje[] = [];
   selectedBoekje: string = "1";
+  validationMessages: string[] = [];
+  errorMessages: string[] = [];
 
   public barChartData : ChartData = {datasets:[], labels: []};
   public budgetBarChartData : ChartData = {datasets:[], labels: []};
@@ -33,18 +35,18 @@ export class CategoriesComponent implements AfterViewInit {
   max_budget = '';
   end_date = '';
 
-  errorMessages: string[] = [];
-
   ngAfterViewInit(): void {
     this.getBoekjes();
   }
 
   getBoekjes(): void {
-    this.boekjeService.getBoekjes().subscribe(boekjes => {
+    this.boekjeService.getBoekjes().subscribe({next: boekjes => {
       this.boekjes = boekjes
       this.selectedBoekje = this.boekjes != null ? this.boekjes[0].id : ""
       this.getCategories();
-    });
+    },
+    error: error => this.errorMessages.push(error)
+  });
   }
 
   getBarColors(budgets: number[], maxBudgets: number[]): string[] {
@@ -149,16 +151,20 @@ export class CategoriesComponent implements AfterViewInit {
   }
 
   getCategories(): void {
-    this.categoryService.getCategories().subscribe(categories => {
+    this.categoryService.getCategories().subscribe({next: categories => {
       this.categories = categories
       this.updateTotalsChart()
       this.updateTotalsPerMonthChart()
-    })
-    this.incomeService.getIncomes(this.selectedBoekje).subscribe(incomes => {
+    },
+    error: error => this.errorMessages.push(error)
+  })
+    this.incomeService.getIncomes(this.selectedBoekje).subscribe({next: incomes => {
       this.incomes = incomes
       this.updateTotalsChart()
       this.updateTotalsPerMonthChart()
-    })
+    },
+    error: error => this.errorMessages.push(error)
+    });
   }
 
   add(name: string, description: string, max_budget: string, end_date: string | null): void {
@@ -166,12 +172,12 @@ export class CategoriesComponent implements AfterViewInit {
     description = description.trim();
     const max_budgetNumber = Number(max_budget);
     const end_dateDate = end_date ? new Date(end_date).toISOString().split('T')[0]: null;
-    this.errorMessages = [];
-    if (!name) { this.errorMessages.push('Naam is verplicht.'); }
-    if (!description) { this.errorMessages.push('Categorie is verplicht.'); }
-    if (!max_budget) { this.errorMessages.push('Maximale budget is verplicht.'); }
-    if (max_budgetNumber <= 0) { this.errorMessages.push('Maximale budget moet groter zijn dan 0.'); }
-    if (this.errorMessages.length > 0) { return; }
+    this.validationMessages = [];
+    if (!name) { this.validationMessages.push('Naam is verplicht.'); }
+    if (!description) { this.validationMessages.push('Categorie is verplicht.'); }
+    if (!max_budget) { this.validationMessages.push('Maximale budget is verplicht.'); }
+    if (max_budgetNumber <= 0) { this.validationMessages.push('Maximale budget moet groter zijn dan 0.'); }
+    if (this.validationMessages.length > 0) { return; }
     this.categoryService.addCategory({ name, description, max_budget: max_budgetNumber, end_date: end_dateDate } as Category)
 
     // Clear the form

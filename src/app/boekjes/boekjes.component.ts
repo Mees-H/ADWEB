@@ -6,6 +6,7 @@ import { BoekjeDetailComponent } from '../boekje-detail/boekje-detail.component'
 import { BoekjeService } from '../services/boekje.service';
 import { MessageService } from '../services/message.service';
 import { RouterModule } from '@angular/router';
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-boekjes',
@@ -15,6 +16,7 @@ import { RouterModule } from '@angular/router';
 
 
 export class BoekjesComponent {
+  public errorMessages: string[] = [];
 
   constructor(private boekjeService: BoekjeService, private messageService: MessageService) { }
 
@@ -22,11 +24,12 @@ export class BoekjesComponent {
     this.getBoekjes();
   }
 
-  boekjes: Boekje[] = [];
+  boekjes: Boekje[] | null = null;
 
   getBoekjes(): void {
-    this.boekjeService.getBoekjes().subscribe(boekjes => {
-      this.boekjes = boekjes
+    this.boekjeService.getBoekjes().subscribe({
+      next: boekjes => this.boekjes = boekjes,
+      error: error => this.errorMessages.push(error)
     })
   }
 

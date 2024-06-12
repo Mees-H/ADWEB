@@ -27,25 +27,27 @@ export class BoekjeService {
 
   /** GET boekje by id. Will 404 if id not found */
   getBoekje(id: string): Observable<Boekje> {
-
     return new Observable((subscriber: Subscriber<any>) => {
-      if (id == "") {
-        subscriber.next(null);
+      if (this.authService.currentUserSignal() == null) {
+        subscriber.error("You need to be logged in to view this.");
       } else {
-        onSnapshot(doc(this.firestore, "books", id), (doc) => {
-          let data = doc.data()
-          if (data) {
+        onSnapshot(doc(this.firestore, "books", id), {
+          next: (doc) => {
+            let data = doc.data()
+            if (data) {
 
-            const boekje: Boekje ={
-              id: doc.id,
-              name: data['name'],
-              description: data['description'],
-              archived: data['archived'],
-              userIds: data['userIds']
+              const boekje: Boekje = {
+                id: doc.id,
+                name: data['name'],
+                description: data['description'],
+                archived: data['archived'],
+                userIds: data['userIds']
+              }
+              subscriber.next(boekje);
             }
-            subscriber.next(boekje);
-          }
-          subscriber.next(null);
+            subscriber.next(null);
+          },
+          error: (error) => subscriber.error(error.message)
         });
       }
     })
@@ -54,58 +56,64 @@ export class BoekjeService {
   /** GET boekjes from the server that are not archived*/
   getBoekjes(): Observable<Boekje[]> {
     return new Observable((subscriber: Subscriber<any[]>) => {
-      if(this.authService.currentUserSignal() == null) {
-        subscriber.next([]);
-        return;
-      }
+      if (this.authService.currentUserSignal() == null) {
+        subscriber.error("You need to be logged in to view this.");
+      }else{
+        const selection = query(collection(this.firestore, 'books'), and(
+          where('userIds', 'array-contains', this.authService.currentUserSignal()!.email),
+          where('archived', '==', false))
+        );
 
-      const selection = query(collection(this.firestore, 'books'), and(
-        where('userIds', 'array-contains', this.authService.currentUserSignal()!.email),
-        where('archived', '==', false))
-      );
-
-      onSnapshot(selection, (snapshot) => {
-        let boekjes: Boekje[] = []
-        snapshot.forEach(x => {
-            boekjes.push({
-              id: x.id,
-              name: x.data()['name'],
-              description: x.data()['description'],
-              archived: x.data()['archived'],
-              userIds: x.data()['userIds']
-            });
+        onSnapshot(selection, {
+          next: (snapshot) => {
+            let boekjes: Boekje[] = []
+            snapshot.forEach(x => {
+              boekjes.push({
+                id: x.id,
+                name: x.data()['name'],
+                description: x.data()['description'],
+                archived: x.data()['archived'],
+                userIds: x.data()['userIds']
+              });
+            })
+            subscriber.next(boekjes);
+          },
+          error: (error) => {
+            subscriber.error(error.message)
+          }
         })
-        subscriber.next(boekjes);
-      })
+      }
     })
   }
 
   /** GET boekjes from the server that are archived*/
   getBoekjesArchived(): Observable<Boekje[]> {
     return new Observable((subscriber: Subscriber<any[]>) => {
-      if(this.authService.currentUserSignal() == null) {
-        subscriber.next([]);
-        return;
-      }
+      if (this.authService.currentUserSignal() == null) {
+        subscriber.error("You need to be logged in to view this.");
+      } else {
+        const selection = query(collection(this.firestore, 'books'), and(
+          where('userIds', 'array-contains', this.authService.currentUserSignal()!.email),
+          where('archived', '==', true))
+        );
 
-      const selection = query(collection(this.firestore, 'books'), and(
-        where('userIds', 'array-contains', this.authService.currentUserSignal()!.email),
-        where('archived', '==', true))
-      );
-
-      onSnapshot(selection, (snapshot) => {
-        let boekjes: Boekje[] = []
-        snapshot.forEach(x => {
-          boekjes.push({
-            id: x.id,
-            name: x.data()['name'],
-            description: x.data()['description'],
-            archived: x.data()['archived'],
-            userIds: x.data()['userIds']
-          });
+        onSnapshot(selection, {
+          next: (snapshot) => {
+            let boekjes: Boekje[] = []
+            snapshot.forEach(x => {
+              boekjes.push({
+                id: x.id,
+                name: x.data()['name'],
+                description: x.data()['description'],
+                archived: x.data()['archived'],
+                userIds: x.data()['userIds']
+              });
+            })
+            subscriber.next(boekjes);
+          },
+          error: (error) => subscriber.error(error.message)
         })
-        subscriber.next(boekjes);
-      })
+      }
     })
   }
 
@@ -140,25 +148,30 @@ export class BoekjeService {
       return of([]);
     }
     return new Observable((subscriber: Subscriber<any[]>) => {
-      const selection = query(collection(this.firestore, 'books'), and(
-        where('userIds', 'array-contains', this.authService.currentUserSignal()!.id),
-        where('name', '==', term))
-      );
-
-      onSnapshot(selection, (snapshot) => {
-        let boekjes: Boekje[] = []
-        snapshot.forEach(x => {
-            boekjes.push({
-              id: x.id,
-              name: x.data()['name'],
-              description: x.data()['description'],
-              archived: x.data()['archived'],
-              userIds: x.data()['userIds']
-            });
+      if (this.authService.currentUserSignal() == null) {
+        subscriber.error("You need to be logged in to view this.");
+      } else {
+        const selection = query(collection(this.firestore, 'books'), and(
+          where('userIds', 'array-contains', this.authService.currentUserSignal()!.id),
+          where('name', '==', term))
+        );
+        onSnapshot(selection, {
+          next: (snapshot) => {
+            let boekjes: Boekje[] = []
+            snapshot.forEach(x => {
+              boekjes.push({
+                id: x.id,
+                name: x.data()['name'],
+                description: x.data()['description'],
+                archived: x.data()['archived'],
+                userIds: x.data()['userIds']
+              });
+            })
+            subscriber.next(boekjes);
+          },
+          error: (error) => subscriber.error(error.message)
         })
-
-        subscriber.next(boekjes);
-      })
+      }
     })
   }
 

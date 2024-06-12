@@ -1,3 +1,4 @@
+<app-error [errorMessages]="errorMessages"/>
 <ul class="boekjes-archived" *ngIf="boekjes.length; else loading">
   <p>Alle gearchiveerde boekjes:</p>
   <li *ngFor="let boekje of boekjes">

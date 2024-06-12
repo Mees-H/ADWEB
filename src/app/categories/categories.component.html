@@ -1,3 +1,4 @@
+<app-error [errorMessages]="errorMessages"/>
 <div class="mt">
   <label for="boekje-select">Kies boekje: </label>
   <select id="boekje-select" [(ngModel)]="selectedBoekje" (change)="getCategories()">
@@ -35,7 +36,7 @@
     <input type="number" id="new-category-max_budget" [(ngModel)]="max_budget" />
     <label for="new-category-end_date">Categorie einddatum:</label>
     <input type="date" id="new-category-end_date" [(ngModel)]="end_date" />
-    <ng-container *ngFor="let errorMessage of errorMessages">
+    <ng-container *ngFor="let errorMessage of validationMessages">
       <div *ngIf="errorMessage" class="alert">{{ errorMessage }}</div>
     </ng-container>
     <button type="button" class="add-button" (click)="add(name, description, max_budget, end_date);">

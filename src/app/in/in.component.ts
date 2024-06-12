@@ -34,7 +34,8 @@ export class InComponent {
   months: string[] = [];
   selectedMonth: string = '';
   datePipe = new DatePipe('en-US');
-  
+  errorMessages: string[] = [];
+
 
   getUniqueMonths() {
     const allMonths = this.positiveIncomes.concat(this.negativeIncomes)
@@ -49,7 +50,7 @@ export class InComponent {
     // Start with the original incomes
     this.positiveIncomes = [...this.originalPositiveIncomes];
     this.negativeIncomes = [...this.originalNegativeIncomes];
-  
+
     // Filter incomes by selected month
     const selectedMonth = this.selectedMonth;
     this.positiveIncomes = this.positiveIncomes.filter(income => {
@@ -71,22 +72,31 @@ export class InComponent {
   }
 
   getCategories(): void {
-    this.categoryService.getCategories().subscribe(categories => this.categories = categories);
+    this.categoryService.getCategories().subscribe({
+      next: categories => this.categories = categories,
+      error: err => this.errorMessages.push(err)
+  });
   }
 
   getPositiveIncomes(boekjeId: string): void {
-    this.incomeService.getIncomes(boekjeId).subscribe(positiveIncomes => {
-      this.positiveIncomes = positiveIncomes.filter(income => income.cash > 0);
-      this.originalPositiveIncomes = [...this.positiveIncomes]; 
-      this.months = this.getUniqueMonths();
+    this.incomeService.getIncomes(boekjeId).subscribe({
+      next: positiveIncomes => {
+          this.positiveIncomes = positiveIncomes.filter(income => income.cash > 0);
+          this.originalPositiveIncomes = [...this.positiveIncomes];
+          this.months = this.getUniqueMonths();
+        },
+      error: err => this.errorMessages.push(err)
     });
   }
-  
+
   getNegativeIncomes(boekjeId: string): void {
-    this.incomeService.getIncomes(boekjeId).subscribe(negativeIncomes => {
-      this.negativeIncomes = negativeIncomes.filter(income => income.cash < 0);
-      this.originalNegativeIncomes = [...this.negativeIncomes]; 
-      this.months = this.getUniqueMonths();
+    this.incomeService.getIncomes(boekjeId).subscribe({
+      next: negativeIncomes => {
+        this.negativeIncomes = negativeIncomes.filter(income => income.cash < 0);
+        this.originalNegativeIncomes = [...this.negativeIncomes];
+        this.months = this.getUniqueMonths();
+      },
+      error: err => this.errorMessages.push(err)
     });
   }
 

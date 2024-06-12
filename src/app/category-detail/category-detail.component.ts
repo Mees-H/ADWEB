@@ -22,7 +22,7 @@ export class CategoryDetailComponent {
   @Input() category? : Category;
 
   incomesCash : number = 0;
-
+  validationMessages: string[] = [];
   errorMessages: string[] = [];
 
   ngOnInit(): void {
@@ -55,19 +55,19 @@ export class CategoryDetailComponent {
   save(): void {
     if (this.category) {
       //validate
-      this.errorMessages = [];
-      if (!this.category.name) { this.errorMessages.push('Naam is verplicht.'); }
-      if (!this.category.description) { this.errorMessages.push('Categorie is verplicht.'); }
-      if (!this.category.max_budget) { this.errorMessages.push('Maximale budget is verplicht.'); }
-      if (this.category.max_budget <= 0) { this.errorMessages.push('Maximale budget moet groter zijn dan 0.'); }
+      this.validationMessages = [];
+      if (!this.category.name) { this.validationMessages.push('Naam is verplicht.'); }
+      if (!this.category.description) { this.validationMessages.push('Categorie is verplicht.'); }
+      if (!this.category.max_budget) { this.validationMessages.push('Maximale budget is verplicht.'); }
+      if (this.category.max_budget <= 0) { this.validationMessages.push('Maximale budget moet groter zijn dan 0.'); }
       // check if the max_budget is more than the total income in that category
       if (this.category) {
         if ((this.category.max_budget + this.incomesCash < 0)) {
-          this.errorMessages.push('Maximale budget moet groter zijn dan de inkomsten min de uitgaven (' + this.incomesCash + ') in deze categorie.');
+          this.validationMessages.push('Maximale budget moet groter zijn dan de inkomsten min de uitgaven (' + this.incomesCash + ') in deze categorie.');
         }
       }
 
-      if (this.errorMessages.length > 0) { return; }
+      if (this.validationMessages.length > 0) { return; }
       // update all incomes with this category
       this.categoryService.updateCategory(this.category)
       this.goBack();

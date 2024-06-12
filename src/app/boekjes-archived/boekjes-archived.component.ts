@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
 
 
 export class BoekjesComponentArchived {
+  public errorMessages: string[] = [];
 
   constructor(private boekjeService: BoekjeService, private messageService: MessageService) { }
 
@@ -25,6 +26,9 @@ export class BoekjesComponentArchived {
   boekjes: Boekje[] = [];
 
   getBoekjesArchived(): void {
-    this.boekjeService.getBoekjesArchived().subscribe(boekjes => this.boekjes = boekjes);
+    this.boekjeService.getBoekjesArchived().subscribe({
+      next: boekjes => this.boekjes = boekjes,
+      error: error => this.errorMessages.push(error)
+  });
   }
 }

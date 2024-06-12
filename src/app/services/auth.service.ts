@@ -17,7 +17,6 @@ export class AuthService {
 
   register(email: string, password: string): Observable<void> {
     const promise = createUserWithEmailAndPassword(this.firebaseAuth, email, password).then(()=>{});
-    console.log("user created")
     return from(promise)
   }
 

@@ -23,6 +23,7 @@ import { delay } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { Auth, getAuth, provideAuth } from '@angular/fire/auth';
+import {ErrorComponent} from "./error/error.component";
 
 
 @NgModule({
@@ -32,16 +33,16 @@ import { Auth, getAuth, provideAuth } from '@angular/fire/auth';
     AppRoutingModule,
     HttpClientModule,
     DashboardComponent,
-    
+
 
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, {dataEncapsulation: false}
-
     ),
-    BaseChartDirective
+    BaseChartDirective,
+    ErrorComponent
   ],
   declarations: [
     AppComponent,

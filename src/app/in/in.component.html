@@ -1,3 +1,4 @@
+<app-error [errorMessages]="errorMessages"/>
 <div class="mt">
   <ng-container *ngIf="months.length > 0; else loading">
     <label for="month-picker">Kies een maand en jaar: </label>
@@ -54,7 +55,7 @@
     </ul>
   </ng-container>
 
-  
+
   <ng-template #loading>
     <div class="mt"><span class="loader"></span></div>
     Geen transacties gevonden...
@@ -63,7 +64,7 @@
   <ng-template #emptyCatagory>
     <p>Er zijn geen categorieen.</p>
   </ng-template>
-  
+
   <hr>
   <h2>Voeg transacties toe:</h2>
   <div>

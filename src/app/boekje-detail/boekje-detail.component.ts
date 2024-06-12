@@ -20,6 +20,7 @@ export class BoekjeDetailComponent {
 
   @Input() boekje?: Boekje;
   newUserMail: string = "";
+  errorMessages: string[] = [];
 
   ngOnInit(): void {
     this.getBoekje();
