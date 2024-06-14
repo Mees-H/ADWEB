@@ -1,11 +1,9 @@
 import {Component, Input, OnDestroy} from '@angular/core';
-import {NgIf, UpperCasePipe} from '@angular/common';
-import {FormsModule} from '@angular/forms';
 import {Boekje} from '../models/boekje';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { BoekjeService } from '../services/boekje.service';
-import {Observable, Subscription} from "rxjs";
+import { Subscription} from "rxjs";
 
 @Component({
   selector: 'app-boekje-detail',
@@ -57,6 +55,7 @@ export class BoekjeDetailComponent implements OnDestroy {
   save(): void {
     if (this.boekje) {
       this.boekjeService.updateBoekje(this.boekje)
+      this.goBack();
     }
   }
 

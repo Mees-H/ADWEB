@@ -2,6 +2,7 @@ import {Component, inject} from '@angular/core';
 import {AuthService} from "../services/auth.service";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ErrorComponent} from "../error/error.component";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-login',
@@ -23,12 +24,15 @@ export class LoginComponent {
     password: ['', Validators.required]
   })
 
+  constructor(private location: Location){}
+
   submitForm(){
     const rawForm = this.form.getRawValue();
     this.login(rawForm.password, rawForm.email);
   }
   login(password: string, email: string){
     this.authService.login(email, password).subscribe({
+      next: () => this.location.back(),
       error: (error: any) => this.errorMessages.push(error.message)
     });
   }

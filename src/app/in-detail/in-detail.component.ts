@@ -53,6 +53,7 @@ export class InDetailComponent implements OnDestroy {
   save(): void {
     if (this.inkomst) {
       this.incomeService.updateIncome(this.inkomst)
+      this.goBack();
     }
   }
 
