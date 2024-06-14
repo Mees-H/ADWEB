@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MessagesComponent } from './messages.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ErrorComponent } from '../error/error.component';
 
 describe('MessagesComponent', () => {
   let component: MessagesComponent;
@@ -11,7 +12,7 @@ describe('MessagesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MessagesComponent],
-      imports: [RouterModule.forRoot([]), HttpClientTestingModule]
+      imports: [ErrorComponent,RouterModule.forRoot([]), HttpClientTestingModule]
     })
     .compileComponents();
     

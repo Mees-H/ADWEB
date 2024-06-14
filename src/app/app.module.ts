@@ -53,7 +53,7 @@ import {ErrorComponent} from "./error/error.component";
     InComponent,
     InDetailComponent,
     CategoriesComponent,
-    CategoryDetailComponent
+    CategoryDetailComponent,
   ],
   bootstrap: [ AppComponent ],
   providers: [DatePipe, provideFirebaseApp(() => initializeApp({

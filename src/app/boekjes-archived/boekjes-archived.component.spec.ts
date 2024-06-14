@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { Auth, getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { of } from 'rxjs';
+import { ErrorComponent } from '../error/error.component';
 
 describe('BoekjesComponentArchived', () => {
   let component: BoekjesComponentArchived;
@@ -23,6 +24,7 @@ describe('BoekjesComponentArchived', () => {
     await TestBed.configureTestingModule({
       declarations: [BoekjesComponentArchived],
       imports: [
+        ErrorComponent,
         RouterModule.forRoot([]), 
         HttpClientTestingModule,
         AngularFireModule.initializeApp({

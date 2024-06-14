@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategoryDetailComponent } from './category-detail.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ErrorComponent } from '../error/error.component';
 
 describe('CategoryDetailComponent', () => {
   let component: CategoryDetailComponent;
@@ -11,7 +12,7 @@ describe('CategoryDetailComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CategoryDetailComponent],
-      imports: [RouterModule.forRoot([]), HttpClientTestingModule]
+      imports: [ErrorComponent, RouterModule.forRoot([]), HttpClientTestingModule]
     })
     .compileComponents();
     
